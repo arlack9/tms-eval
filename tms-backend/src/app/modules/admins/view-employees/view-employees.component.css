@@ -1,0 +1,15 @@
+
+
+.sticky-custom-left{
+    position:sticky;
+    left:0px;
+    background-color:blue; 
+    /* opacity:1; */
+    }
+    
+    .sticky-custom-right{
+    position:sticky;
+    right:0px;
+    background-color:blue; 
+    /* opacity:1; */
+    }

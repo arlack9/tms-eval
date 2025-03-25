@@ -1,0 +1,94 @@
+<app-header></app-header>
+<main>
+    <div class="container mt-3">
+        <h2 class="mb-4">Manager Requests View</h2>
+        <!-- search-bar-start -->
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="search-container">
+                        <input type="text" class="form-control search-input" placeholder="Search...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- search-bar-end -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sl.No.</th>
+                    <th>Name</th>
+                    <th>Request Date</th>
+                    <th>DateFrom</th>
+                    <th>DateTo</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>John Doe</td>
+                    <td>10-2-24</td>
+                    <td>10-2-24</td>
+                    <td>10-3-24</td>
+                    <td>Himalaya</td>
+                    <td>In-progress</td>
+                    <td>
+                        <button class="btn btn-primary">Request</button>
+                        <button class="btn btn-success">Approve</button>
+                        <button class="btn btn-danger">Reject</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>John Doe</td>
+                    <td>10-2-24</td>
+                    <td>10-2-24</td>
+                    <td>10-3-24</td>
+                    <td>Himalaya</td>
+                    <td>In-progress</td>
+                    <td>
+                        <button class="btn btn-primary">Request</button>
+                        <button class="btn btn-success">Approve</button>
+                        <button class="btn btn-danger">Reject</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>John Doe</td>
+                    <td>10-2-24</td>
+                    <td>10-2-24</td>
+                    <td>10-3-24</td>
+                    <td>Himalaya</td>
+                    <td>In-progress</td>
+                    <td>
+                        <button class="btn btn-primary">Request</button>
+                        <button class="btn btn-success">Approve</button>
+                        <button class="btn btn-danger">Reject</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- pagination bottom right  -->
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</main>
+<app-footer></app-footer>

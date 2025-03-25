@@ -1,0 +1,88 @@
+<app-header></app-header>
+
+<main>
+    <div class="container mt-5 position-relative">
+        <h2 class="mb-4">Admin Requests View</h2>
+    
+        <!-- Search Bar -->
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="search-container">
+                        <input type="text" class="form-control search-input" placeholder="Search...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Table Container -->
+        <div class="table-responsive mt-4" style="max-height: 400px; overflow-y: auto;"> <!-- Vertical scroll container -->
+            <table class="table table-bordered table-hover">
+                <thead > <!-- Apply dark theme to header -->
+                    <tr>
+                        <th class="">Sl.No.</th>
+                        <th>Employee Name</th>
+                        <th>Manager Name</th>
+                        <th>Request Date</th>
+                        <th>Date From & To</th>
+                        <th>Location From & To</th>
+                        <th>Request Status</th>
+                        <th class="">Actions</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <tr *ngFor="let request of travelRequests; let i = index">
+                        <td class="sticky-custom-left">{{ i + 1 }}</td>
+                        <td>{{ request.employee_name }}</td>
+                        <td>{{ request.manager_name }}</td>
+                        <td>{{ request.created_at }}</td>
+                        <td>{{ request.date_from }} - {{ request.date_to }}</td>
+                        <td>{{ request.from_location }} → {{ request.to_location }}</td>
+    
+                        <td>
+                            <span *ngIf="request.request_status === 'IP'" class="badge bg-primary">IN-PROGRESS</span>
+                            <span *ngIf="request.request_status === 'AP'" class="badge bg-success">APPROVED</span>
+                            <span *ngIf="request.request_status === 'RJ'" class="badge bg-danger">REQUEST REJECTED</span>
+                            <span *ngIf="request.request_status === 'CA'" class="badge bg-secondary">CANCELLED</span>
+                        </td>
+    
+                        <td class="sticky-custom-right">
+                            <button class="btn btn-primary btn-sm me-2"
+                                (click)="openModal(request.id)"
+                                [disabled]="request.alive_status === 'CL'">
+                                Request
+                            </button>
+    
+                            <button class="btn btn-danger btn-sm"
+                                *ngIf="request.alive_status !== 'CL'"
+                                (click)="closeRequest(request.id)">
+                                Close
+                            </button>
+    
+                            <button class="btn btn-secondary btn-sm"
+                                *ngIf="request.alive_status === 'CL'" disabled>
+                                Closed
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+ 
+</main>
+
+<!-- Reusable Modal Component -->
+<app-note-modal 
+    [isOpen]="isModalOpen"
+    title="Send Note"
+    confirmText="Send"
+    (Close)="isModalOpen = false"
+    (Confirm)="sendNote($event)">
+</app-note-modal>
+
+
+
+<app-footer></app-footer>

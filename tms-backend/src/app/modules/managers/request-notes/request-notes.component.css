@@ -1,0 +1,10 @@
+body {
+    padding-top: 56px; /* Prevent overlap with fixed navbar */
+    margin-bottom: 56px; /* Prevent overlap with fixed footer */
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }

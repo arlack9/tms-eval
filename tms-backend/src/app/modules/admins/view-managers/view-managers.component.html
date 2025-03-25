@@ -1,0 +1,100 @@
+
+<app-header></app-header>
+
+<main>
+
+    <div class="container mt-5 position-relative">        
+<div class="container mt-3">
+    <h2 class="mb-4">Admin Manager View</h2>
+             <!-- search-bar-start -->
+             <div class="container">
+               <div class="row justify-content-center">
+                 <div class="col-md-6">
+                   <div class="search-container">
+                     <input type="text" class="form-control search-input" placeholder="Search...">
+                     <i class="fas fa-search search-icon"></i>
+                   </div>
+                 </div>
+               </div>
+             </div>
+              <!-- search-bar-end -->
+    <table class="table text-center">
+      <thead>
+
+<!-- row-1 -->
+
+        <tr>
+          <th>Sl.No.</th>
+          <th>Manager ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Joined Date</th>
+          <th>DOB</th>
+          <th>Approved requests</th>
+          <th>Rejected requests</th>
+          <th>Pending requests</th>
+          <!-- <th></th> -->
+           <th>Action</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>M-100</td>
+          <td>John Doe</td>
+          <td>johndoe&#64;gmail.com</td>
+          <td>10-2-23</td>
+          <td>2-5-200</td>
+          <td>64</td>
+          <td>3</td>
+          <td>5</td>
+
+        <!-- buttons-start -->
+          <td>
+            <button class="btn btn-primary">Edit</button>
+            <button class="btn btn-danger">Remove</button>  
+          </td>
+        <!-- buttons-end -->
+        </tr>
+
+<!-- row-1-end -->
+
+
+
+<!-- row-3-end -->
+
+
+
+
+      </tbody>
+    </table>
+
+    <!-- pagination bottom right  -->
+
+    <nav aria-label="...">
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item active"> 
+            <a class="page-link" href="#">2 </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+
+
+  </div>
+  
+
+</div>
+
+</main>
+
+
+<app-footer></app-footer>

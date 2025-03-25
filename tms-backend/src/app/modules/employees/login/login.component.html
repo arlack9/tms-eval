@@ -1,0 +1,68 @@
+<app-login-header></app-login-header>
+
+<main>
+    <!-- form-start -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="card-title mb-0">Employee Login</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <form [formGroup]="cred" (ngSubmit)="onSubmit()">
+                            <div class="mb-3">
+                                <label for="employeeEmail"  class="form-label">Username</label>
+                                <input type="email" class="form-control" id="employeeEmail" formControlName="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="employeePassword" class="form-label" >Password</label>
+                                <input type="password" class="form-control" id="employeePassword" formControlName="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100" >Login</button>
+                            <div class="text-center mt-3">
+                                <a href="#" class="text-success">Forgot Password?</a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- form-end -->
+</main>
+
+<app-footer></app-footer>
+
+
+
+
+<!-- -------------------------------
+
+
+<h2>Form Validation Example</h2>
+
+<form [formGroup]="cred" (ngSubmit)="onSubmit()" >
+    <label for="name">Name:</label>
+    <input formControlName="name" placeholder="Enter your name">
+    
+  <div *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+      <div *ngIf="name?.errors?.['required']">Name is required.</div>
+      <div *ngIf="name?.errors?.['minlength']">Name should be at least 3 characters long.</div>
+      <div *ngIf="name?.errors?.['maxlength']">Name should not exceed 8 characters.</div>
+    </div>
+  
+    <label for="password">Password:</label>
+    <input type="password" formControlName="password" placeholder="Enter your password">
+    <div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+      <div *ngIf="password?.errors?.['required']">Password is required.</div>
+      <div *ngIf="password?.errors?.['minlength']">Password should be at least 3 characters long.</div>
+      <div *ngIf="password?.errors?.['maxlength']">Password should not exceed 8 characters.</div>
+    </div>
+  
+  <button type="submit" [disabled]="!cred.valid">Submit</button>
+</form>
+-------------------------------- -->

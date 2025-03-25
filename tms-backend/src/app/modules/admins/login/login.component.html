@@ -1,0 +1,38 @@
+<app-login-header></app-login-header>
+<main>
+    <!-- form-start -->
+    <div class="container my-5 ">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    
+                    <div class="card-header bg-dark text-white">
+                        <h4 class="card-title mb-0">Admin Login</h4>
+                    </div> 
+
+                    
+                    <div class="card-body">
+                        <form [formGroup]="cred" (ngSubmit)="onSubmit()">
+                            <div class="mb-3">
+                                <label for="adminUsername"  class="form-label">Username</label>
+                                <input type="username" class="form-control" id="adminUsername" formControlName="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="adminPassword" class="form-label" >Password</label>
+                                <input type="password" class="form-control" id="adminPassword" formControlName="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-dark w-100" >Login</button>
+                            <div class="text-center mt-3">
+                                <!-- <a href="#" class="text-success">Forgot Password?</a> -->
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- form-end -->
+</main>
+<app-footer></app-footer>

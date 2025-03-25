@@ -1,0 +1,24 @@
+body {
+    padding-top: 50px; /* Prevent overlap with fixed navbar */
+    margin-bottom: 50px; /* Prevent overlap with fixed footer */
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 60%;
+  }
+
+  .form-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  

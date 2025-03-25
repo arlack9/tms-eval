@@ -1,0 +1,52 @@
+<app-header></app-header>
+
+<main>
+    <div class="container mt-5 position-relative">
+        <h2 class="mb-4">Admin Requests View</h2>
+    
+        <!-- Search Bar -->
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="search-container">
+                        <input type="text" class="form-control search-input" placeholder="Search...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Table Container -->
+        <div class="table-responsive mt-4" style="max-height: 400px; overflow-y: auto;"> <!-- Vertical scroll container -->
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark table-light"> <!-- Apply dark theme to header -->
+                    <tr>
+                        <th>Sl.No.</th>
+                        <th>Employee Name</th>
+                        <th>Manager Name</th>
+                        <th>Request Date</th>
+                        <th>Date From & To</th>
+                        <th>Location From & To</th>
+                        <th>Request Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <tr *ngFor="let employee of employees; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        
+                      
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+<!-- Reusable Modal Component -->
+
+
+
+<app-footer></app-footer>

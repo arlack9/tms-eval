@@ -1,0 +1,33 @@
+.search-container {
+    position: relative;
+}
+
+.search-input {
+    padding-right: 30px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.bg-custom-green {
+    background-color: #205A28;
+}
+
+.text-white {
+    color: white;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #205A28;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}

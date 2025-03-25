@@ -1,0 +1,16 @@
+.bg-custom-green {
+    /* background-color: #205A28; */
+    /* background-color: #ac6e34; */
+    /* background-color: #FF9900; */
+    background-color: #2E865F;
+}
+
+.btn-custom-green {
+    background-color: #205A28;
+    color: white;
+}
+
+.btn-custom-green:hover {
+    background-color: #1a4820;
+    color: white;
+}
