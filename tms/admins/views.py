@@ -51,10 +51,39 @@ def handle_user_requests(request,id=None):
     elif request.method == 'PUT' and request.GET.get("type")=="managers" and id:
         return update_manager(request,id)
     
+    # cancel
+    elif request.method == 'PATCH' and request.GET.get("type")=="employees" and id:
+        return cancel_employee(request,id)
+    
+    elif request.method == 'PATCH' and request.GET.get("type")=="managers" and id:
+        return cancel_manager(request,id)
+    
     return Response({"error": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ---------------- Admin Actions ----------------
+@api_view(['PATCH'])
+@permission_classes([IsAdmin, IsAuthenticated])
+def cancel_employee(request, id):
+    """
+    Cancel employee
+    """
+    employee = get_object_or_404(Employees, id=id)
+    employee.alive_status = Employees.AliveStatusIndex.INACTIVE
+    employee.save()
+    return Response({"message": "Employee cancelled."}, status=status.HTTP_200_OK)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAdmin, IsAuthenticated])
+def cancel_manager(request, id):
+    """
+    Cancel manager
+    """
+    manager = get_object_or_404(Managers, id=id)
+    manager.alive_status = Managers.AliveStatusIndex.INACTIVE
+    manager.save()
+    return Response({"message": "Manager cancelled."}, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
 @permission_classes([IsAdmin, IsAuthenticated])
