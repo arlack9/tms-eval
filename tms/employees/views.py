@@ -50,32 +50,6 @@ def handle_travel_request(request, id=None):
     return Response({"error": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# ---------------- Travel Request Actions ----------------
-
-# @api_view(['POST'])
-# @permission_classes([IsAuthenticated,IsEmployee])
-# def create_travel_request(request):
-#     """
-#     Employees can submit a new travel request.
-#     """
-#     employee = get_employee(request.user)
-#     if not employee:
-#         return Response({"error": "Employee not found."}, status=status.HTTP_400_BAD_REQUEST)
-    
-#     data = request.data.copy()
-#     data['employee'] = employee.id
-#     manager = assign_manager_to_request(employee)
-#     data['manager'] = manager.id if manager else None  # Auto-assign manager
-
-#     serializer = TravelRequestsSerializer(data=data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         send_email_notification(employee, "Travel Request Submitted", "Your request has been submitted.")
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
