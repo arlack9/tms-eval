@@ -34,15 +34,22 @@ def handle_user_requests(request,id=None):
     """
     handle various admin user 
     """
-
+    # view
     if request.method == 'GET' and request.GET.get("type") == "employees":
         return list_employees(request)
     elif request.method == 'GET' and request.GET.get("type") == "managers":
         return list_managers(request)
+    # add
     elif request.method == 'POST' and request.GET.get("type") == "employees":
         return add_employee(request)
     elif request.method == 'POST' and request.GET.get("type") == "managers":
         return add_manager(request)
+    # update
+    elif request.method == 'PUT' and request.GET.get("type")=="employees" and id:
+        return update_user(request,id)
+    
+    elif request.method == 'PUT' and request.GET.get("type")=="managers" and id:
+        return update_user(request,id)
     
     return Response({"error": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST)
 

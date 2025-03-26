@@ -44,9 +44,13 @@
                         <!-- <td>{{employee.present_status}}</td> -->
                         <td>
                             <span *ngIf="employee.present_status === 'PR'" class="badge bg-success">PRESENT</span>
-                            <!-- <span *ngIf="request.request_status === 'AP'" class="badge bg-success">APPROVED</span> -->
+                            
                             <span *ngIf="employee.present_status != 'PR'" class="badge bg-danger">REJECTED</span>
-                            <!-- <span *ngIf="request.request_status === 'CA'" class="badge bg-secondary">CANCELLED</span> -->
+                            
+                        </td>
+                        <td>
+                            <!-- <button class="btn btn-warning btn-sm" (click)="editEmployee(employee)">Edit</button> -->
+                            <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee)"></button>
                         </td>
                     </tr>
                 </tbody>
