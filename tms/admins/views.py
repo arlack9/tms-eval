@@ -46,15 +46,41 @@ def handle_user_requests(request,id=None):
         return add_manager(request)
     # update
     elif request.method == 'PUT' and request.GET.get("type")=="employees" and id:
-        return update_user(request,id)
+        return update_employee(request,id)
     
     elif request.method == 'PUT' and request.GET.get("type")=="managers" and id:
-        return update_user(request,id)
+        return update_manager(request,id)
     
     return Response({"error": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ---------------- Admin Actions ----------------
+
+@api_view(['PUT'])
+@permission_classes([IsAdmin, IsAuthenticated])
+def update_employee(request, id):
+    """
+    Update employee details
+    """
+    employee = get_object_or_404(Employees, id=id)
+    serializer = EmployeeSerializer(employee, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+@permission_classes([IsAdmin, IsAuthenticated])
+def update_manager(request, id):
+    """
+    Update manager details
+    """
+    manager = get_object_or_404(Managers, id=id)
+    serializer = ManagerSerializer(manager, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PATCH'])
 @permission_classes([IsAdmin, IsAuthenticated])
