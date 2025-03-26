@@ -60,13 +60,13 @@ export class BackendService {
     }
     
     // Debug URL construction
-    console.log('Request URL:', url, 'Query params:', params.toString());
+    // console.log('Request URL:', url, 'Query params:', params.toString());
     
     let request$: Observable<T>;
 
     switch (method) {
       case 'GET':
-        request$ = this.http.get<T>(url, { headers, params });
+        request$ = this.http.get<T>(url, {headers} );
         break;
       case 'POST':
         request$ = this.http.post<T>(url, data, { headers });

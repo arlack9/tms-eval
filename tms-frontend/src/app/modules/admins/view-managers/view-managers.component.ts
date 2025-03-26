@@ -24,8 +24,8 @@ export class ViewManagersComponent implements OnInit {
   fetchManagers(): void {
     this.loading = true;
     
-    // Append query parameter directly to the endpoint
-    this.backendService.request('admin', 'GET', 'users?type=managers', null)
+    // Pass query parameters as the fourth argument instead of appending to endpoint
+    this.backendService.request('admin', 'GET', 'users?type=managers')
       .subscribe(
         (response) => {
           // Debug: Log the raw response to see its structure

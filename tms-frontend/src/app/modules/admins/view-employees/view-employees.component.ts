@@ -22,7 +22,7 @@ export class ViewEmployeesComponent implements OnInit {
     this.loading = true;
     
     // Append query parameter directly to the endpoint
-    this.backendService.request('admin', 'GET', 'users?type=employees', null)
+    this.backendService.request('admin', 'GET', 'users?type=employees')
       .subscribe(
         (response) => {
           // Debug: Log the raw response to see its structure
@@ -42,7 +42,7 @@ export class ViewEmployeesComponent implements OnInit {
   }
 
 
-  deleteEmployee(id: number): void {
+  deleteEmployee(employeeid: number): void {
 
   }
 
