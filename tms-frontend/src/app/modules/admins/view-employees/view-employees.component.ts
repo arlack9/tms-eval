@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend/backend.service';
+import { DomElementSchemaRegistry } from '@angular/compiler';
 
 @Component({
   selector: 'app-view-employees',
@@ -38,6 +39,11 @@ export class ViewEmployeesComponent implements OnInit {
           this.loading = false;
         }
       );
+  }
+
+
+  deleteEmployee(id: number): void {
+
   }
 
 
