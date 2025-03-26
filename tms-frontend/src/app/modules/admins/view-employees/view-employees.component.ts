@@ -25,7 +25,7 @@ export class ViewEmployeesComponent implements OnInit {
       .subscribe(
         (response) => {
           // Debug: Log the raw response to see its structure
-          console.log('Raw API response:', response);
+          // console.log('Raw API response:', response);
           
           // Process response based on format (array or object with data property)
           this.employees = Array.isArray(response) ? response : response.data || [];

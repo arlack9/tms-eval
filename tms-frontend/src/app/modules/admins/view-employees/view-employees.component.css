@@ -3,13 +3,17 @@
 .sticky-custom-left{
     position:sticky;
     left:0px;
-    background-color:blue; 
+    background-color:rgb(255, 255, 255); 
     /* opacity:1; */
     }
     
     .sticky-custom-right{
     position:sticky;
     right:0px;
-    background-color:blue; 
+    background-color:rgb(124, 172, 92); 
     /* opacity:1; */
     }
+
+    .table td, .table th {
+        white-space: nowrap; /* Prevent text from wrapping inside cells */
+      }

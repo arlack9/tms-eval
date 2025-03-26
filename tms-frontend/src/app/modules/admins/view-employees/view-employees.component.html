@@ -2,7 +2,7 @@
 
 <main>
     <div class="container mt-5 position-relative">
-        <h2 class="mb-4">Admin Requests View</h2>
+        <h2 class="mb-4">Admin Employees View</h2>
     
         <!-- Search Bar -->
         <div class="container">
@@ -22,21 +22,32 @@
                 <thead class="table-dark table-light"> <!-- Apply dark theme to header -->
                     <tr>
                         <th>Sl.No.</th>
-                        <th>Employee Name</th>
-                        <th>Manager Name</th>
-                        <th>Request Date</th>
-                        <th>Date From & To</th>
-                        <th>Location From & To</th>
-                        <th>Request Status</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>dob</th>
+                        <th>Created date</th>
+                        <th>status</th>
+                       
                         <th>Actions</th>
                     </tr>
                 </thead>
     
                 <tbody>
                     <tr *ngFor="let employee of employees; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        
-                      
+                        <td class="sticky-custom-left">{{ i + 1 }}</td>
+                        <td>{{employee.employee_name}}</td>
+                        <td>{{employee.employee_username}}</td>
+                        <td>{{employee.employee_email}}</td>
+                        <td>{{employee.dob}}</td>
+                        <td>{{employee.created_at}}</td>
+                        <!-- <td>{{employee.present_status}}</td> -->
+                        <td>
+                            <span *ngIf="employee.present_status === 'PR'" class="badge bg-success">PRESENT</span>
+                            <!-- <span *ngIf="request.request_status === 'AP'" class="badge bg-success">APPROVED</span> -->
+                            <span *ngIf="employee.present_status != 'PR'" class="badge bg-danger">REJECTED</span>
+                            <!-- <span *ngIf="request.request_status === 'CA'" class="badge bg-secondary">CANCELLED</span> -->
+                        </td>
                     </tr>
                 </tbody>
             </table>
