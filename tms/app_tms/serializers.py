@@ -70,9 +70,25 @@ class ManagerSerializer(serializers.ModelSerializer):
         '''
          get manager full name from login table 
          '''
-        if obj.manager and obj.manager.login_auth:  
-            return f"{obj.manager.login_auth.first_name} {obj.manager.login_auth.last_name}".strip()
-        return None 
+        if obj.login_auth:  
+            return f"{obj.login_auth.first_name} {obj.login_auth.last_name}".strip()
+        return None
+        
+    def get_manager_email(self, obj):
+        '''
+         get manager email from login table
+         '''
+        if obj.login_auth:
+            return obj.login_auth.email
+        return None
+        
+    def get_manager_username(self, obj):
+        '''
+         get manager username from login table
+         '''
+        if obj.login_auth:
+            return obj.login_auth.username
+        return None
 
 class ManagerAssignmentsSerializer(serializers.ModelSerializer):
     class Meta:
