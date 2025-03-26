@@ -14,7 +14,7 @@ from app_tms.utils import (
 )
 from rest_framework.authentication import TokenAuthentication
 
-import json
+# ----------------------------------------------------------------------------------------
 
 def handle_travel_request(request, id=None):
 
@@ -50,10 +50,7 @@ def handle_travel_request(request, id=None):
     return Response({"error": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+# -----------------------------------------------------------------------------------------------------------------
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,IsEmployee])
