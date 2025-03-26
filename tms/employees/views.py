@@ -15,11 +15,8 @@ from app_tms.utils import (
 from rest_framework.authentication import TokenAuthentication
 
 import json
-# @api_view(['POST', 'GET', 'PUT', 'DELETE', 'PATCH'])
-# @csrf_exempt
-# @permission_classes([IsAuthenticated,IsEmployee])
+
 def handle_travel_request(request, id=None):
-    # serializer = TravelRequestsSerializer(data={**request.data, "employee": request.user.id})
 
     """
     Handle various travel request actions based on HTTP methods.
