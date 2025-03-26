@@ -34,22 +34,33 @@ export class BackendService {
     id?: number
   ): Observable<T> {
     const headers = this.login.getHeaders();
-    let url = `${this.baseUrl}/${userType}/${endpoint}/`;
-    if (id) url += `${id}/`;
-
+    
+    // Build the base URL without trailing slash
+    let url = `${this.baseUrl}/${userType}/${endpoint}`;
+    
+    // Add ID if provided
+    if (id) {
+      url += `/${id}`;
+    }
+    
+    // Only add trailing slash if queryParams is null
+    if (queryParams === null) {
+      url += '/';
+    }
+    
     let params = new HttpParams();
     
-    if (queryParams && Object.keys(queryParams).length > 0) {  
-      const shouldApplyParams = userType === 'manager'; // Add more conditions if needed
-      
-      if (shouldApplyParams) {
-        Object.entries(queryParams).forEach(([key, value]) => {
-          if (value !== null && value !== undefined && value !== '') { // Avoid empty values
-            params = params.set(key, value);
-          }
-        });
-      }
+    // Process query params if provided and not null
+    if (queryParams && Object.keys(queryParams).length > 0) {
+      Object.entries(queryParams).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== '') {
+          params = params.set(key, value);
+        }
+      });
     }
+    
+    // Debug URL construction
+    console.log('Request URL:', url, 'Query params:', params.toString());
     
     let request$: Observable<T>;
 

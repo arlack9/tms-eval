@@ -16,7 +16,7 @@ import json
 @permission_classes([IsAdmin, IsAuthenticated])
 def handle_admin_requests(request, id=None):
     """
-    Function to handle various admin actions related to travel requests, employees, and managers.
+    Function to handle various admin actions related to travel requests.
     """
 
     # Travel Request Actions
@@ -26,21 +26,25 @@ def handle_admin_requests(request, id=None):
         return list_all_requests(request)
     elif request.method == 'PATCH' and id:
         return close_travel_request(request, id)
-            
-    # Employee & Manager Actions
-    elif request.method == 'POST':
-        action = request.data.get("action")
-        if action == "add_employee":
-            return add_employee(request)
-        elif action == "add_manager":
-            return add_manager(request)
-    elif request.method == 'GET' and request.query_params.get("type") == "employees":
-        return list_employees(request)
-    elif request.method == 'GET' and request.query_params.get("type") == "managers":
-        return list_managers(request)
 
     return Response({"error": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST)
 
+
+def handle_user_requests(request,id=None):
+    """
+    handle various admin user 
+    """
+
+    if request.method == 'GET' and request.GET.get("type") == "employees":
+        return list_employees(request)
+    elif request.method == 'GET' and request.GET.get("type") == "managers":
+        return list_managers(request)
+    elif request.method == 'POST' and request.GET.get("type") == "employees":
+        return add_employee(request)
+    elif request.method == 'POST' and request.GET.get("type") == "managers":
+        return add_manager(request)
+    
+    return Response({"error": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ---------------- Admin Actions ----------------

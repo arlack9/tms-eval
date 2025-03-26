@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import handle_admin_requests, send_request_note
+from .views import handle_admin_requests, send_request_note,handle_user_requests
 
 urlpatterns = [
     # Admin Travel Request Handling
@@ -8,4 +8,8 @@ urlpatterns = [
     
     # Sending Notes Based on Travel Request ID
     path('travel-request/<int:id>/note/', send_request_note, name='admin_travel_request_note'),
+
+
+    path('users/', handle_user_requests, name='admin view , add users'),
+    path('users/<int:id>/', handle_user_requests, name='admin manage users')  # Specific Request by ID
 ]

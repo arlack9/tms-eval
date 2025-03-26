@@ -13,28 +13,40 @@ class UserSerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
     employee_name = serializers.SerializerMethodField()
+    employee_email = serializers.SerializerMethodField()
+    employee_username = serializers.SerializerMethodField()
 
     def create(self, validated_data):
-        # exit
-        # print(now().date())
         validated_data["created_at"] = now().date()
         return super().create(validated_data)
         
-    # def validat
     class Meta:
-        model=Employees
-        fields='__all__'
-        # read_only_fields = ("created_at",)
-        # fields=['name','price']
-
+        model = Employees
+        fields = '__all__'
+        
     def get_employee_name(self, obj):
         '''
          get employee full name from login table 
          '''
-        if obj.employee and obj.employee.login_auth:  
-            return f"{obj.employee.login_auth.first_name} {obj.employee.login_auth.last_name}".strip()
-        return None 
-
+        if obj.login_auth:  
+            return f"{obj.login_auth.first_name} {obj.login_auth.last_name}".strip()
+        return None
+        
+    def get_employee_email(self, obj):
+        '''
+         get employee email from login table
+         '''
+        if obj.login_auth:
+            return obj.login_auth.email
+        return None
+        
+    def get_employee_username(self, obj):
+        '''
+         get employee username from login table
+         '''
+        if obj.login_auth:
+            return obj.login_auth.username
+        return None
       
 
 class AdminSerializer(serializers.ModelSerializer):
