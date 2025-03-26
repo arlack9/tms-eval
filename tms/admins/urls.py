@@ -10,6 +10,6 @@ urlpatterns = [
     path('travel-request/<int:id>/note/', send_request_note, name='admin_travel_request_note'),
 
 
-    path('users/', handle_user_requests, name='admin view , add users'),
+    path('users/', handle_user_requests, name='admin view , add users'), #put-> update , #patch-> status
     path('users/<int:id>/', handle_user_requests, name='admin manage users')  # Specific Request by ID
 ]

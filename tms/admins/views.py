@@ -39,11 +39,13 @@ def handle_user_requests(request,id=None):
         return list_employees(request)
     elif request.method == 'GET' and request.GET.get("type") == "managers":
         return list_managers(request)
+    
     # add
     elif request.method == 'POST' and request.GET.get("type") == "employees":
         return add_employee(request)
     elif request.method == 'POST' and request.GET.get("type") == "managers":
         return add_manager(request)
+    
     # update
     elif request.method == 'PUT' and request.GET.get("type")=="employees" and id:
         return update_employee(request,id)
@@ -69,7 +71,7 @@ def cancel_employee(request, id):
     Cancel employee
     """
     employee = get_object_or_404(Employees, id=id)
-    employee.alive_status = Employees.AliveStatusIndex.INACTIVE
+    employee.alive_status = Employees.PresentStatusIndex.ABSENT
     employee.save()
     return Response({"message": "Employee cancelled."}, status=status.HTTP_200_OK)
 
@@ -81,7 +83,7 @@ def cancel_manager(request, id):
     Cancel manager
     """
     manager = get_object_or_404(Managers, id=id)
-    manager.alive_status = Managers.AliveStatusIndex.INACTIVE
+    manager.alive_status = Managers.PresentStatusIndex.ABSENT
     manager.save()
     return Response({"message": "Manager cancelled."}, status=status.HTTP_200_OK)
 
