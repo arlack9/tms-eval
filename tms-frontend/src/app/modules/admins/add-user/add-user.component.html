@@ -2,34 +2,67 @@
 <main>
     <div class="container mt-5">
         <h2 class="mb-4">Add User</h2>
-        <form>
+        
+        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+        
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" placeholder="Enter Name">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" formControlName="firstName" placeholder="Enter First Name">
+                <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
+                    First Name is required
+                </div>
             </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" formControlName="lastName" placeholder="Enter Last Name">
+                <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
+                    Last Name is required
+                </div>
+            </div>
+            
             <div class="mb-3">
                 <label class="form-label">Type</label>
-                <select class="form-select">
-                    <option value="Employee">Employee</option>
-                    <option value="Manager">Manager</option>
+                <select class="form-select" formControlName="userType">
+                    <option value="employee">Employee</option>
+                    <option value="manager">Manager</option>
                 </select>
             </div>
+            
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Enter Email">
+                <input type="email" class="form-control" formControlName="email" placeholder="Enter Email">
+                <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                    Valid email is required
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" formControlName="username" placeholder="Enter Username">
+                <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="text-danger">
+                    Username is required
+                </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-control" placeholder="Enter Password">
+                <input type="password" class="form-control" formControlName="password" placeholder="Enter Password">
+                <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                    Password must be at least 8 characters
+                </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Date of Birth</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" formControlName="dob">
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" [disabled]="userForm.invalid || isSubmitting" class="btn btn-primary">
+                {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+            </button>
         </form>
     </div>
 </main>
