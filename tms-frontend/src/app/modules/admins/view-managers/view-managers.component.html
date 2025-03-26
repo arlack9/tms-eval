@@ -28,7 +28,6 @@
                         <th>dob</th>
                         <th>Created date</th>
                         <th>status</th>
-                       
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -36,9 +35,9 @@
                 <tbody>
                     <tr *ngFor="let manager of managers; let i = index">
                         <td class="sticky-custom-left">{{ i + 1 }}</td>
-                        <td>{{manager.employee_name}}</td>
-                        <td>{{manager.employee_username}}</td>
-                        <td>{{manager.employee_email}}</td>
+                        <td>{{manager.manager_name}}</td>
+                        <td>{{manager.manager_username}}</td>
+                        <td>{{manager.manager_email}}</td>
                         <td>{{manager.dob}}</td>
                         <td>{{manager.created_at}}</td>
                         <!-- <td>{{employee.present_status}}</td> -->
