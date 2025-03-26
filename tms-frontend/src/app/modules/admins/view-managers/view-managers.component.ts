@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './view-managers.component.css'
 })
 export class ViewManagersComponent {
+  public managers:any=[];
 
+
+
+  deleteManager(managerId: number) {
+  }
 }
