@@ -18,7 +18,7 @@
 
             <div class="mb-3">
                 <label class="form-label">Middle Name </label>
-                <input type="text" class="form-control" formControlName="lastName" placeholder="Enter Last Name">
+                <input type="text" class="form-control" formControlName="middleName" placeholder="Enter Last Name">
                 <div *ngIf="lastName?.invalid&&lastName?.touched" class="text-danger">
                 Middle Name is optional
                 </div>
@@ -70,13 +70,11 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Date of Birth</label>
-                <!-- <input type="date" class="form-control" formControlName="manager">
-                  -->
-                  <select class="form-select" formControlName="manager">
-                    <option value="{{manager.id}}">{{manager.name}}</option>
-                    
-                    </select>
+                <label class="form-label">Select Manager</label>
+                <select class="form-select" formControlName="manager">
+                    <option value="">Select a manager</option>
+                    <option *ngFor="let manager of managers" [value]="manager.id">{{manager.manager_name}}</option>
+                </select>
             </div>
 
             <button type="submit" [disabled]="userForm.invalid"  class="btn btn-primary">

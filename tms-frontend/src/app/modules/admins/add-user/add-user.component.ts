@@ -14,21 +14,19 @@ export class AddUserComponent implements OnInit {
   loading = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  managers: any[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private backendService: BackendService,
-    private viewmanager: ViewManagersComponent
+    private backendService: BackendService
+   
   ) {}
 
 
 
   ngOnInit() {
     this.initForm();
-    // manager_list=this.viewmanager.fetchManagers().managers;
-    // this.managerService.fetchManagers().subscribe(managers => {
-    //   this.managerList = managers;
-    // });
+    this.fetchManagers();
     
   }
   
@@ -73,6 +71,34 @@ export class AddUserComponent implements OnInit {
   get email() { return this.userForm.get('email')?.value || ''; }
   get dob() { return this.userForm.get('dob')?.value || ''; }
   get manager() { return this.userForm.get('manager')?.value || ''; }
+
+
+
+  
+  fetchManagers(): void {
+    this.loading = true;
+    
+    
+    // Pass query parameters as the fourth argument instead of appending to endpoint
+    this.backendService.request('admin', 'GET', 'users?type=managers')
+      .subscribe(
+        (response) => {
+          // Debug: Log the raw response to see its structure
+          // console.log('Raw API response:', response);
+          
+          // Process response based on format (array or object with data property)
+          this.managers = Array.isArray(response) ? response : response.data || [];
+          
+          this.loading = false;
+        },
+        (error) => {
+          console.error('Failed to load employees:', error);
+          
+          this.loading = false;
+        }
+      );
+  }
+
 
   onSubmit(): void {
     if (this.userForm.invalid) {
