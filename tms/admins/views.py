@@ -162,7 +162,7 @@ def add_employee(request):
     """
     data = request.data.copy()
     response = create_user(
-        data.pop("email"), data.pop("first_name"), data.pop("last_name"), "employee", data
+        data.pop("username"),data.pop("email"), data.pop("first_name"), data.pop("last_name"), "employee", data, data.pop("password")
     )
     
 
@@ -176,7 +176,7 @@ def add_manager(request):
     """
     data = request.data.copy()
     response = create_user(
-        data.pop("email"), data.pop("first_name"), data.pop("last_name"), "manager", data
+         data.pop("username"),data.pop("email"), data.pop("first_name"), data.pop("last_name"), "manager", data, data.pop("password")
     )
     return Response(response, status=status.HTTP_201_CREATED if response["success"] else status.HTTP_400_BAD_REQUEST)
 

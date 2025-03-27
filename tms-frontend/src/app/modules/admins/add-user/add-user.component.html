@@ -34,7 +34,7 @@
             
             <div class="mb-3">
                 <label class="form-label">Type</label>
-                <select class="form-select" formControlName="userType">
+                <select class="form-select" formControlName="userType" id="userType">
                 <option value="employees">Employee</option>
                 <option value="managers">Manager</option>
                 </select>
@@ -70,11 +70,13 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Select Manager</label>
+                
+                <!-- <div *ngIf="userType.value == 'managers'"> -->
+                    <label class="form-label">Select Manager</label>
                 <select class="form-select" formControlName="manager">
-                    <option value="">Select a manager</option>
                     <option *ngFor="let manager of managers" [value]="manager.id">{{manager.manager_name}}</option>
                 </select>
+            <!-- </div> -->
             </div>
 
             <button type="submit" [disabled]="userForm.invalid"  class="btn btn-primary">

@@ -240,7 +240,7 @@ def generate_username(email):
 
 logger = logging.getLogger(__name__)
 
-def create_user(email, first_name, last_name, role, extra_data, password=None):
+def create_user(username, email, first_name, last_name, role, extra_data, password=None):
     """
     Creates a user in both `auth_user` and the respective role table (Employees or Managers).
 
@@ -259,7 +259,8 @@ def create_user(email, first_name, last_name, role, extra_data, password=None):
         if check_email_exists(email):
             return {"success": False, "message": "User already exists"}
         
-        username = generate_username(email)
+        if not username:
+            username = generate_username(email)
         
         # Generate a random password if none is provided
         if not password:
@@ -284,12 +285,18 @@ def create_user(email, first_name, last_name, role, extra_data, password=None):
             if (serializer.is_valid()):
                 serializer.save()
                 
-                
-            if(assign_manager(user.id,extra_data['manager'])==True):
-                return {
-                    "success": True, 
-                    "message": f" created successfully.", 
-                    }
+                if(role=="employee"):    
+                    if(assign_manager(user.id,extra_data['manager'])==True):
+                        return {
+                            "success": True, 
+                            "message": f" employee created successfully.", 
+                            }
+                else:
+                    return {
+                            "success": True, 
+                            "message": f" manager created successfully.", 
+                            }
+
                 
             else:
                 user.delete()  # Cleanup if validation fails
