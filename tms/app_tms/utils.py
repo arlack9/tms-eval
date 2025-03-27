@@ -297,11 +297,6 @@ def create_user(email, first_name, last_name, role, extra_data, password=None):
                 return {"success": False, "errors": serializer.errors}
             
             
-        
-        
-            
-
-
     except Exception as e:
         logger.error(f"Failed to create {role}: {str(e)}", exc_info=True)
         return {"success": False, "message": "Error creating user."}
