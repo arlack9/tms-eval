@@ -104,34 +104,78 @@ class ManagerAssignmentsSerializer(serializers.ModelSerializer):
 class TravelRequestsSerializer(serializers.ModelSerializer):
     manager_name = serializers.SerializerMethodField()
     employee_name = serializers.SerializerMethodField()
-    new_notes_count = serializers.SerializerMethodField()  # Count only new notes
+    new_notes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Travel_Requests
         fields = "__all__"
         read_only_fields = ("created_at",)
+    
+    def validate(self, data):
+        """Validate lodging requirements"""
+        lodging_required = data.get('lodging_required')
+        lodging_location = data.get('lodging_location', '')
+        
+        # Validate lodging requirements
+        if lodging_required == 0 and lodging_location and lodging_location.strip():
+            raise serializers.ValidationError({
+                "lodging_location": "Lodging location must be empty when lodging is not required."
+            })
+        
+        if lodging_required == 1 and (not lodging_location or not lodging_location.strip()):
+            raise serializers.ValidationError({
+                "lodging_location": "Lodging location is required when lodging is needed."
+            })
+            
+        return data
 
+    def to_internal_value(self, data):
+        """Pre-process incoming data"""
+        # Handle lodging_location for consistency
+        lodging_required = data.get('lodging_required')
+        if lodging_required == 0 or lodging_required == '0':
+            data['lodging_location'] = None
+        
+        # Validate the request status against available choices
+        request_status = data.get('request_status')
+        if request_status:
+            valid_choices = [choice[0] for choice in Travel_Requests.RequestStatusIndex.choices]
+            if request_status not in valid_choices:
+                raise serializers.ValidationError({
+                    'request_status': f"'{request_status}' is not a valid choice. Valid choices are: {valid_choices}"
+                })
+        
+        # Let DRF handle the rest normally
+        return super().to_internal_value(data)
+
+    # Rest of your methods remain the same
     def get_manager_name(self, obj):
-        '''
-         get manager full name from login table 
-         '''
-        if obj.manager and obj.manager.login_auth:  
+        """
+        Get manager name by looking up Manager_Assignments for the employee
+        """
+        if obj.employee:
+            # Try to find manager assignment for this employee
+            try:
+                # Look up manager from Manager_Assignments
+                assignment = Manager_Assignments.objects.filter(employee=obj.employee).first()
+                if assignment and assignment.manager and assignment.manager.login_auth:
+                    return f"{assignment.manager.login_auth.first_name} {assignment.manager.login_auth.last_name}".strip()
+            except Manager_Assignments.DoesNotExist:
+                pass
+                
+        # Fallback to directly referenced manager (if any)
+        if hasattr(obj, 'manager') and obj.manager and obj.manager.login_auth:  
             return f"{obj.manager.login_auth.first_name} {obj.manager.login_auth.last_name}".strip()
-        return None 
+            
+        return None
 
     def get_employee_name(self, obj):
-        '''
-         get employee full name from login table 
-         '''
         if obj.employee and obj.employee.login_auth:  
             return f"{obj.employee.login_auth.first_name} {obj.employee.login_auth.last_name}".strip()
         return None 
 
     def get_new_notes_count(self, obj):
-        '''
-         get notes count from refering request id in notes table.
-         '''
-        return Notes.objects.filter(request=obj, read_status="NE").count()  # Count only NEW notes
+        return Notes.objects.filter(request=obj, read_status="NE").count()
 
 
 

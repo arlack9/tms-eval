@@ -498,3 +498,36 @@ def queryset_processor(model, search_fields=None):
 
         return wrapper
     return decorator
+
+def get_manager_by_employee_id(employee_id):
+    """
+    Retrieves the manager assigned to a specific employee using the employee ID.
+    
+    Args:
+        employee_id (int): The ID of the employee
+        
+    Returns:
+        Managers or None: The assigned manager object if found, else None
+    """
+    try:
+        # First, verify the employee exists
+        employee = Employees.objects.filter(id=employee_id).first()
+        if not employee:
+            logger.error(f"No employee found with ID {employee_id}")
+            return None
+            
+        # Look up the manager assignment
+        assignment = Manager_Assignments.objects.filter(
+            employee_id=employee_id
+        ).select_related('manager').first()
+        
+        if assignment:
+            return assignment.manager
+            
+        # If no assignment exists, return None
+        logger.warning(f"No manager assigned to employee with ID {employee_id}")
+        return None
+        
+    except Exception as e:
+        logger.error(f"Error retrieving manager for employee {employee_id}: {str(e)}")
+        return None

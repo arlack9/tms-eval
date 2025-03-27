@@ -65,7 +65,7 @@
                   </div>
                   
                   <!-- Conditional lodging location field -->
-                  <div class="mb-3" *ngIf="requestform.get('lodging_required')?.value === '1'">
+                  <div class="mb-3" *ngIf="lodging_required?.value === '1'">
                     <label for="lodgingLocation" class="form-label">Lodging Location</label>
                     <input type="text" class="form-control" id="lodgingLocation" 
                           aria-describedby="lodgingLocationHelp" 

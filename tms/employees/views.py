@@ -1,4 +1,3 @@
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -54,47 +53,53 @@ def handle_travel_request(request, id=None):
 # -----------------------------------------------------------------------------------------------------------------
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated,IsEmployee])
+@permission_classes([IsAuthenticated, IsEmployee])
 def create_travel_request(request):
+    """
+    Create a new travel request for the authenticated employee.
+    """
     try:
-        # Assuming get_employee and assign_manager_to_request are defined elsewhere
+        # Get the employee associated with the current user
         employee = get_employee(request.user)
         if not employee:
-            return Response({"error": "Employee not found."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Employee not found for the current user."}, 
+                           status=status.HTTP_400_BAD_REQUEST)
 
+        # Copy request data and add the employee ID
         data = request.data.copy()
-        print(f"DEBUG - Employee type: {type(employee)}, ID: {employee.id}")
-        data['employee'] = employee.id
-
-        print(f"DEBUG - Raw request data before serialization: {data}")
+        data['employee'] = employee.id  # Send just the ID
+        
+        # Manually check date validity to provide better error messages
+        date_from = data.get('date_from')
+        date_to = data.get('date_to')
+        if date_from and date_to and date_from > date_to:
+            return Response({
+                "error": "Travel dates are invalid. Start date must be before or equal to end date."
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Add default status - Fix: use .value to get the actual code ('IP')
+        data['request_status'] = Travel_Requests.RequestStatusIndex.IN_PROGRESS.value
+            
+        # Validate and save using the serializer
         serializer = TravelRequestsSerializer(data=data)
-        
         if serializer.is_valid():
-            print(f"DEBUG - Employee in validated_data: {type(serializer.validated_data.get('employee'))}")
-            print(f"DEBUG - Employee in original data: {type(data['employee'])}")
             travel_request = serializer.save()
-            print(f"DEBUG - Travel Request Data: {data}")
-            print(f"DEBUG - Validated Data: {serializer.validated_data}")
-            # try:
-            #     send_email_notification(employee, "Travel Request Submitted", "Your request has been submitted.")
-            # except Exception as e:
-            #     print("Error sending email:", str(e))
+            
+            # Use assign_manager_to_request utility if you need to assign a manager
+            # assign_manager_to_request(travel_request)
+            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # Return detailed validation errors
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
+        # Log the error details but return a cleaner error message
         print(f"ERROR: {str(e)}")
-        print(f"Exception type: {type(e).__name__}")
         print(f"Traceback: {traceback.format_exc()}")
-        print(f"Request data: {request.data}")
         return Response({
-            "error": str(e),
-            "exception_type": type(e).__name__,
-            "traceback": traceback.format_exc()
+            "error": "An unexpected error occurred while processing your request."
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 
 
 @api_view(['GET'])
