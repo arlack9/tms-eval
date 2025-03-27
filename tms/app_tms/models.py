@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Employees(models.Model):
     #fields
-    middle_name=models.CharField(max_length=50)
+    middle_name=models.CharField(max_length=50,null=True)
 
     #dates
     dob=models.DateField()
@@ -30,7 +30,7 @@ class Employees(models.Model):
 class Managers(models.Model):
 
     #fields
-    middle_name=models.CharField(max_length=50)
+    middle_name=models.CharField(max_length=50,null=True)
 
     #Dates
     dob=models.DateField()
@@ -54,7 +54,7 @@ class Managers(models.Model):
 class Admins(models.Model):
 
     #fields
-    middle_name=models.CharField(max_length=50)
+    middle_name=models.CharField(max_length=50,null=True)
  
 
     #Dates
