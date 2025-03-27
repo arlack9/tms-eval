@@ -33,7 +33,7 @@ export class AddUserComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       dob: ['', [Validators.required, this.ageValidator(18)]],
-      userType: ['employee'] // Default value
+      userType: ['employees'] // Default value
     });
     }
 
@@ -58,6 +58,7 @@ export class AddUserComponent implements OnInit {
   get password() { return this.userForm.get('password')?.value || ''; }
   get firstName() { return this.userForm.get('firstName')?.value || ''; }
   get lastName() { return this.userForm.get('lastName')?.value || ''; }
+  get middleName() { return this.userForm.get('middleName')?.value || ''; }
   get userType() { return this.userForm.get('userType')?.value || ''; }
   get email() { return this.userForm.get('email')?.value || ''; }
   get dob() { return this.userForm.get('dob')?.value || ''; }
@@ -76,7 +77,7 @@ export class AddUserComponent implements OnInit {
     this.successMessage = null;
 
     const formData = this.userForm.value;
-    const userType = formData.userType || 'employee';
+    const userType = formData.userType;
     
     // Prepare data for API
     const payload = {
@@ -85,6 +86,7 @@ export class AddUserComponent implements OnInit {
       email: formData.email,
       first_name: formData.firstName,
       last_name: formData.lastName,
+      middle_name: formData.middleName,
       dob: formData.dob
       // Add other fields as needed by your API
     };
@@ -94,7 +96,7 @@ export class AddUserComponent implements OnInit {
     this.backendService.request(
       'admin',
       'POST',
-      'users/?type=employees',
+      `users/?type=${userType}`,
       payload).subscribe(
       (response) => {
         this.loading = false;
