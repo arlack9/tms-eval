@@ -140,6 +140,7 @@ export class AddUserComponent implements OnInit {
         this.loading = false;
         this.successMessage = 'User added successfully';
         this.userForm.reset();
+        this.fetchManagers();
       },
       (error) => {
         this.loading = false;
