@@ -1,3 +1,15 @@
+.table-responsive {
+    overflow-x: auto;  /* Horizontal scroll */
+    overflow-y: auto;  /* Vertical scroll */
+    max-height: 400px; /* Adjust this value based on your layout */
+  }
+  
+ 
+  
+  .table td, .table th {
+    white-space: nowrap; /* Prevent text from wrapping inside cells */
+  }
+
 .search-container {
     position: relative;
 }
