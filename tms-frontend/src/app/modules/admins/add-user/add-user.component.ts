@@ -94,7 +94,7 @@ export class AddUserComponent implements OnInit {
     this.backendService.request(
       'admin',
       'POST',
-      'users?type=employee',
+      'users/?type=employees',
       payload).subscribe(
       (response) => {
         this.loading = false;
