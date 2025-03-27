@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './travel-requests-view.component.css'
 })
 export class TravelRequestsViewComponent implements OnInit {
-  travelRequests: any[] = [];
+  table_data: any[] = [];
   searchText = '';
   currentPage = 1;
   requestsPerPage = 5;
@@ -35,7 +35,7 @@ export class TravelRequestsViewComponent implements OnInit {
 
     this.backendService.request('manager', 'GET', 'travel-request', null, queryParams).subscribe(
       (response: { data: any[]; total_pages: number }) => {
-        this.travelRequests = response.data;
+        this.table_data = response.data;
         this.totalPages = response.total_pages;
       },
       (error) => {
@@ -48,6 +48,9 @@ export class TravelRequestsViewComponent implements OnInit {
     this.router.navigate([`/request-notes/${requestId}`]);
   }
 
+    cancel(id=0):void{
+
+    }
   onSearchChange() {
     this.currentPage = 1;
     this.fetchTravelRequests();

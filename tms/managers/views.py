@@ -11,7 +11,7 @@ from app_tms.utils import get_manager, can_approve_or_reject, send_email_notific
 
 
 
-@permission_classes([IsManager, IsAuthenticated])
+
 def handle_manager_requests(request, id=None):
     """
     Handles various manager actions based on HTTP methods.

@@ -2,12 +2,10 @@
 
 <!-- <main class="container mt-5 position-relative"> -->
     <!-- <section id="travelHistorySection"> -->
-        <div class="container mt-3">
+        <div class="container mt-5 pt-4">
             <h1 class="mb-4" id="travelHistoryHeading">Travel History</h1>
-            <!-- <p>The history of all</p> -->
             <div class="table-responsive">
                 <table class="table text-center table-striped" aria-labelledby="travelHistoryHeading">
-                  
                   <thead class="table-success">
                         <tr>
                             <th>Sl.No.</th>
@@ -17,16 +15,12 @@
                             <th>Request Date</th>
                             <th>Date From & To</th>
                             <th>lodging location</th>
-                            
                             <th>Notification</th>
                             <th>Status</th>
-                            <th></th>
                             <th>Action</th>
-                            
                         </tr>
                     </thead>
-                    <tbody *ngIf=" table_data">
-                      
+                    <tbody *ngIf="table_data">
                       <tr *ngFor="let request of table_data; let i = index">
                         <td>{{ i+1 }}</td>
                         <td>{{ request.from_location }}<br>{{ request.to_location }}</td>
@@ -34,7 +28,6 @@
                         <td>{{ request.travel_purpose }}</td>
                         <td>{{request.created_at}}</td>
                         <td>{{ request.date_from }} <br>---<br>{{ request.date_to }}</td>
-
                         <td>
                           <div *ngIf="request.lodging_location">
                             {{ request.lodging_location }}
@@ -42,54 +35,41 @@
                           <div *ngIf="request.lodging_location===''">
                             No
                           </div>
-                          <!-- <ng-template #noLodging>No</ng-template> -->
                         </td>
-
-                        <!-- id	from_location	to_location	preferred_travel_mode	lodging_required	additional_requests	travel_purpose	date_from	date_to	created_at	request_status	alive_status	employee_id	manager_id	preferred_lodging_location	updated_at	lodging_location -->
-                       
                         <td>
-                          <a  class="btn btn-warning"  [routerLink]="['/employees/view-notes', request.id]">
+                          <a class="btn btn-warning btn-sm" [routerLink]="['/employees/view-notes', request.id]">
                             <i class="bi bi-bell-fill"></i>
-                            <!-- {{}} -->
                             {{request.new_notes_count}}
                           </a>
                         </td>
-
                         <td>
                           <span *ngIf="request.request_status === 'IP'" class="badge bg-primary">IN-PROGRESS</span>
                           <span *ngIf="request.request_status === 'AP'" class="badge bg-success">APPROVED</span>
                           <span *ngIf="request.request_status === 'RJ'" class="badge bg-danger">REQUEST REJECTED</span>
                           <span *ngIf="request.request_status === 'CA'" class="badge bg-secondary">CANCELLED</span>
-                      </td>
-                        
-                        <!-- edit-page -->
-                        <td>
-                          <td class="sticky-custom-right table-success">
-                          <a [routerLink]="['/employees/edit-request', request.id]" 
-                          class="btn btn-primary" 
-                          role="button"><i class="bi bi-pencil-fill"></i>
-                          </a>
-                 
-                          <!-- <div *ngIf="request.request_status=='IP'"> -->
-                          <button 
-                          (click)="cancel(request.id)" class="btn btn-danger" role="button"
-                          [disabled]="request.request_status!=='IP'"
-                          ><i class="bi bi-trash"></i>
-                        </button>
-                          <!-- </div> -->
                         </td>
-                        <!-- cancel-function-end -->
-
-                      </tr> 
-                  
-
+                        <td class="sticky-custom-right table-success">
+                          <a [routerLink]="['/employees/edit-request', request.id]" 
+                             class="btn btn-primary btn-sm me-1" 
+                             role="button">
+                             <i class="bi bi-pencil-fill"></i>
+                          </a>
+                          <button 
+                            (click)="cancel(request.id)" 
+                            class="btn btn-danger btn-sm" 
+                            role="button"
+                            [disabled]="request.request_status!=='IP'">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- pagination bottom right -->
-            <nav aria-label="Travel history pagination">
-                <ul class="pagination">
+            <!-- pagination -->
+            <nav aria-label="Travel history pagination" class="d-flex justify-content-end mt-3">
+                <ul class="pagination pagination-sm">
                     <li class="page-item disabled">
                         <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
                     </li>
@@ -103,6 +83,7 @@
                     </li>
                 </ul>
             </nav>
+        </div>
     <!-- </section> -->
 <!-- </main> -->
 

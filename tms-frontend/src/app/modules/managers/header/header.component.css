@@ -1,33 +1,3 @@
-/* .bg-custom-green { */
-    /* background-color: #205A28; */
-    /* background-color: #ac6e34; */
-    /* background-color: #FF9900; */
-    /* background-color: #2E865F; */
-/* } */
-
-/* .btn-custom-green { */
-    /* background-color: #205A28; */
-    /* color: white; */
-/* } */
-
-/* .btn-custom-green:hover { */
-    /* background-color: #1a4820; */
-    /* color: white;
-} */
-
-
-/* .btn-custom-green {
-    background: linear-gradient(135deg, #D38312, #A83279);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.btn-custom-green:hover {
-    background: linear-gradient(135deg, #A83279, #D38312);
-} */
 
 
 .bg-custom-green {
@@ -45,4 +15,8 @@
 .btn-custom-green:hover {
     background-color: #1a4820;
     color: white;
+
 }
+
+
+

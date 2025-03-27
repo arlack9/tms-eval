@@ -1,71 +1,91 @@
 <app-header></app-header>
-<main>
-    <div class="container mt-3">
-        <h2 class="mb-4">Manager Requests View</h2>
 
-        <!-- Search Bar -->
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="search-container">
-                        <input 
-                            type="text" 
-                            class="form-control search-input" 
-                            [(ngModel)]="searchText" 
-                            placeholder="Search..." 
-                            (input)="onSearchChange()"
-                        >
-                        <i class="fas fa-search search-icon"></i>
-                    </div>
-                </div>
+<!-- <main class="container mt-5 position-relative"> -->
+    <!-- <section id="travelHistorySection"> -->
+        <div class="container mt-5 pt-4">
+            <h1 class="mb-4" id="travelHistoryHeading">Travel History</h1>
+            <div class="table-responsive">
+                <table class="table text-center table-striped" aria-labelledby="travelHistoryHeading">
+                  <thead class="table-success">
+                        <tr>
+                            <th>Sl.No.</th>
+                            <th>Location from & To</th>
+                            <th>Manager Name</th>
+                            <th>Travel Purpose</th>
+                            <th>Request Date</th>
+                            <th>Date From & To</th>
+                            <th>lodging location</th>
+                            <th>Notification</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="table_data">
+                      <tr *ngFor="let request of table_data; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ request.from_location }}<br>{{ request.to_location }}</td>
+                        <td>{{request.manager_name}}</td>
+                        <td>{{ request.travel_purpose }}</td>
+                        <td>{{request.created_at}}</td>
+                        <td>{{ request.date_from }} <br>---<br>{{ request.date_to }}</td>
+                        <td>
+                          <div *ngIf="request.lodging_location">
+                            {{ request.lodging_location }}
+                          </div>
+                          <div *ngIf="request.lodging_location===''">
+                            No
+                          </div>
+                        </td>
+                        <td>
+                          <a class="btn btn-warning btn-sm" [routerLink]="['/employees/view-notes', request.id]">
+                            <i class="bi bi-bell-fill"></i>
+                            {{request.new_notes_count}}
+                          </a>
+                        </td>
+                        <td>
+                          <span *ngIf="request.request_status === 'IP'" class="badge bg-primary">IN-PROGRESS</span>
+                          <span *ngIf="request.request_status === 'AP'" class="badge bg-success">APPROVED</span>
+                          <span *ngIf="request.request_status === 'RJ'" class="badge bg-danger">REQUEST REJECTED</span>
+                          <span *ngIf="request.request_status === 'CA'" class="badge bg-secondary">CANCELLED</span>
+                        </td>
+                        <td class="sticky-custom-right table-success">
+                          <a [routerLink]="['/employees/edit-request', request.id]" 
+                             class="btn btn-primary btn-sm me-1" 
+                             role="button">
+                             <i class="bi bi-pencil-fill"></i>
+                          </a>
+                          <button 
+                            (click)="cancel(request.id)" 
+                            class="btn btn-danger btn-sm" 
+                            role="button"
+                            [disabled]="request.request_status!=='IP'">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
             </div>
+
+            <!-- pagination -->
+            <nav aria-label="Travel history pagination" class="d-flex justify-content-end mt-3">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+    <!-- </section> -->
+<!-- </main> -->
 
-        <!-- Requests Table -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th (click)="changeSorting('id')">Sl.No.</th>
-                    <th (click)="changeSorting('employee_name')">Name</th>
-                    <th (click)="changeSorting('request_date')">Request Date</th>
-                    <th (click)="changeSorting('date_from')">Date From</th>
-                    <th (click)="changeSorting('date_to')">Date To</th>
-                    <th (click)="changeSorting('location')">Location</th>
-                    <th (click)="changeSorting('status')">Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let request of travelRequests; let i = index">
-                    <td>{{ (currentPage - 1) * requestsPerPage + i + 1 }}</td>
-                    <td>{{ request.employee_name }}</td>
-                    <td>{{ request.request_date }}</td>
-                    <td>{{ request.date_from }}</td>
-                    <td>{{ request.date_to }}</td>
-                    <td>{{ request.location }}</td>
-                    <td>{{ request.status }}</td>
-                    <td>
-                        <button class="btn btn-primary" (click)="requestMoreInfo(request.id)">Request</button>
 
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Pagination -->
-        <nav aria-label="Pagination">
-            <ul class="pagination">
-                <li class="page-item" [class.disabled]="currentPage === 1">
-                    <a class="page-link" href="#" (click)="prevPage()">Previous</a>
-                </li>
-                <li *ngFor="let page of totalPagesArray()" class="page-item" [class.active]="currentPage === page">
-                    <a class="page-link" href="#" (click)="goToPage(page)">{{ page }}</a>
-                </li>
-                <li class="page-item" [class.disabled]="currentPage === totalPages">
-                    <a class="page-link" href="#" (click)="nextPage()">Next</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</main>
 <app-footer></app-footer>
