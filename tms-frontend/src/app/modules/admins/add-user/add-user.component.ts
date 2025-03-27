@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../../services/backend/backend.service';
+import { ViewManagersComponent } from '../view-managers/view-managers.component';
 
 
 @Component({
@@ -16,14 +17,21 @@ export class AddUserComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private backendService: BackendService
+    private backendService: BackendService,
+    private viewmanager: ViewManagersComponent
   ) {}
 
 
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.initForm();
+    // manager_list=this.viewmanager.fetchManagers().managers;
+    // this.managerService.fetchManagers().subscribe(managers => {
+    //   this.managerList = managers;
+    // });
+    
   }
+  
 
   initForm(): void {
     this.userForm = this.fb.group({
@@ -33,7 +41,9 @@ export class AddUserComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       dob: ['', [Validators.required, this.ageValidator(18)]],
-      userType: ['employees'] // Default value
+      userType: ['employees'], // Default value,
+      middleName: [''],
+      manager: ['']
     });
     }
 
@@ -62,6 +72,7 @@ export class AddUserComponent implements OnInit {
   get userType() { return this.userForm.get('userType')?.value || ''; }
   get email() { return this.userForm.get('email')?.value || ''; }
   get dob() { return this.userForm.get('dob')?.value || ''; }
+  get manager() { return this.userForm.get('manager')?.value || ''; }
 
   onSubmit(): void {
     if (this.userForm.invalid) {
@@ -87,7 +98,8 @@ export class AddUserComponent implements OnInit {
       first_name: formData.firstName,
       last_name: formData.lastName,
       middle_name: formData.middleName,
-      dob: formData.dob
+      dob: formData.dob,
+      manager: formData.manager
       // Add other fields as needed by your API
     };
 

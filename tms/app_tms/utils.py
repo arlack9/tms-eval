@@ -4,7 +4,7 @@ import logging
 from .models import Employees, Managers, Admins, Travel_Requests, Manager_Assignments
 from django.db.models import Q
 from django.contrib.auth.models import User
-from .serializers import EmployeeSerializer, ManagerSerializer, AdminSerializer
+from .serializers import EmployeeSerializer, ManagerSerializer, AdminSerializer,ManagerAssignmentsSerializer
 from django.db import transaction
 from django.conf import settings
 from functools import wraps
@@ -291,10 +291,31 @@ def create_user(email, first_name, last_name, role, extra_data, password=None):
                 user.delete()  # Cleanup if validation fails
                 logger.error(f"Validation failed for {role}: {serializer.errors}")
                 return {"success": False, "errors": serializer.errors}
+        
+        assign_manager(user.id,extra_data['manager'])
+            
+
 
     except Exception as e:
         logger.error(f"Failed to create {role}: {str(e)}", exc_info=True)
         return {"success": False, "message": "Error creating user."}
+    
+
+    # manager-assigment
+def assign_manager(user_id,manager_id):
+    """
+    Assigns a manager to an employee.
+    """
+    serializer = ManagerAssignmentsSerializer(data={"employee":user_id,"manager":manager_id})
+    if serializer.is_valid():
+        serializer.save()
+        return {
+                "success": True, 
+                "message": f"manager assigned successfully.", 
+                }
+    else:
+        # user.delete()
+        logger.error(f"Validation failed for {serializer.errors}")
 
 
 

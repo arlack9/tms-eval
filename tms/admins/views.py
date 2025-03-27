@@ -4,7 +4,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from app_tms.models import Travel_Requests, Employees, Managers, Notes
 from app_tms.serializers import (
-    EmployeeSerializer, ManagerSerializer, TravelRequestsSerializer,NotesSerializer
+    EmployeeSerializer, ManagerSerializer, TravelRequestsSerializer,NotesSerializer,ManagerAssignmentsSerializer
 )
 from app_tms.permissions import IsAdmin
 from app_tms.utils import create_user, send_email_notification, get_admin
@@ -164,6 +164,8 @@ def add_employee(request):
     response = create_user(
         data.pop("email"), data.pop("first_name"), data.pop("last_name"), "employee", data
     )
+    
+
     return Response(response, status=status.HTTP_201_CREATED if response["success"] else status.HTTP_400_BAD_REQUEST)
 
 @api_view(["POST"])

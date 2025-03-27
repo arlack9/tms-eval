@@ -64,8 +64,8 @@ def create_travel_request(request):
         data = request.data.copy()
         data['employee'] = employee.id
 
-        manager = assign_manager_to_request(employee)
-        data['manager'] = manager.id if manager else None
+        # manager = assign_manager_to_request(employee)
+        # data['manager'] = manager.id if manager else None
 
         serializer = TravelRequestsSerializer(data=data)
         if serializer.is_valid():
