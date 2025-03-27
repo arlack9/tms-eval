@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../../services/backend/backend.service';
+import { Route } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -64,5 +65,19 @@ export class AddUserComponent implements OnInit {
     this.backendService.request(
       'admin',
       'POST',
-      'users',
-      payload,
+      'users?type=employee',
+      payload).subscribe(
+      (response) => {
+        this.loading = false;
+        this.successMessage = 'User added successfully';
+        this.userForm.reset();
+      },
+      (error) => {
+        this.loading = false;
+        this.errorMessage = 'Failed to add user';
+      }
+    );
+  }
+
+
+}
