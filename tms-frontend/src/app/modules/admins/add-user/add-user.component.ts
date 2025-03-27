@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../../services/backend/backend.service';
-import { Route } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-user',
@@ -19,6 +19,8 @@ export class AddUserComponent implements OnInit {
     private backendService: BackendService
   ) {}
 
+
+
   ngOnInit(): void {
     this.initForm();
   }
@@ -30,10 +32,35 @@ export class AddUserComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      // Add other fields from your form
+      dob: ['', [Validators.required, this.ageValidator(18)]],
       userType: ['employee'] // Default value
     });
+    }
+
+    // Custom validator to check if age is at least minAge
+    ageValidator(minAge: number) {
+    return (control: any) => {
+      if (!control.value) {
+      return null;
+      }
+      
+      const dob = new Date(control.value);
+      const today = new Date();
+      const diffMs = today.getTime() - dob.getTime();
+      const ageDate = new Date(diffMs);
+      const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+      
+      return age < minAge ? { underage: true } : null;
+    };
   }
+
+  get username() { return this.userForm.get('username')?.value || ''; }
+  get password() { return this.userForm.get('password')?.value || ''; }
+  get firstName() { return this.userForm.get('firstName')?.value || ''; }
+  get lastName() { return this.userForm.get('lastName')?.value || ''; }
+  get userType() { return this.userForm.get('userType')?.value || ''; }
+  get email() { return this.userForm.get('email')?.value || ''; }
+  get dob() { return this.userForm.get('dob')?.value || ''; }
 
   onSubmit(): void {
     if (this.userForm.invalid) {
@@ -57,10 +84,12 @@ export class AddUserComponent implements OnInit {
       password: formData.password,
       email: formData.email,
       first_name: formData.firstName,
-      last_name: formData.lastName
+      last_name: formData.lastName,
+      dob: formData.dob
       // Add other fields as needed by your API
     };
 
+    console.log('Adding user:', payload);
     // Make API request to add user
     this.backendService.request(
       'admin',
