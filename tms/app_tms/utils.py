@@ -280,19 +280,25 @@ def create_user(email, first_name, last_name, role, extra_data, password=None):
             serializer_class = EmployeeSerializer if role == "employee" else ManagerSerializer
             serializer = serializer_class(data=extra_data)
 
-            if serializer.is_valid():
+
+            if (serializer.is_valid()):
                 serializer.save()
+                
+                
+            if(assign_manager(user.id,extra_data['manager'])==True):
                 return {
                     "success": True, 
-                    "message": f"{role.capitalize()} created successfully.", 
-                    "generated_password": password  # Return password if auto-generated
-                }
+                    "message": f" created successfully.", 
+                    }
+                
             else:
                 user.delete()  # Cleanup if validation fails
                 logger.error(f"Validation failed for {role}: {serializer.errors}")
                 return {"success": False, "errors": serializer.errors}
+            
+            
         
-        assign_manager(user.id,extra_data['manager'])
+        
             
 
 
@@ -302,20 +308,34 @@ def create_user(email, first_name, last_name, role, extra_data, password=None):
     
 
     # manager-assigment
-def assign_manager(user_id,manager_id):
+def assign_manager(user_id, manager_id):
     """
     Assigns a manager to an employee.
+    
+    Args:
+        user_id (int): The ID of the employee.
+        manager_id (int): The ID of the manager.
+        
+    Returns:
+        bool: True if assignment is successful, False otherwise.
     """
-    serializer = ManagerAssignmentsSerializer(data={"employee":user_id,"manager":manager_id})
-    if serializer.is_valid():
-        serializer.save()
-        return {
-                "success": True, 
-                "message": f"manager assigned successfully.", 
-                }
-    else:
-        # user.delete()
-        logger.error(f"Validation failed for {serializer.errors}")
+    try:
+        # Get the employee record using the user's login_auth ID
+        employee = Employees.objects.filter(login_auth_id=user_id).first()
+        if not employee:
+            logger.error(f"Employee with user_id {user_id} does not exist")
+            return False
+            
+        serializer = ManagerAssignmentsSerializer(data={"employee": employee.id, "manager": manager_id})
+        if serializer.is_valid():
+            serializer.save()
+            return True
+        else:
+            logger.error(f"Validation failed for manager assignment: {serializer.errors}")
+            return False
+    except Exception as e:
+        logger.error(f"Error assigning manager: {str(e)}")
+        return False
 
 
 
