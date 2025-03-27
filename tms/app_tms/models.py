@@ -119,7 +119,7 @@ class Travel_Requests(models.Model):
 
     #FK
     employee=models.ForeignKey(Employees,on_delete=models.PROTECT)
-    manager=models.ForeignKey(Managers,on_delete=models.PROTECT)
+    # manager=models.ForeignKey(Managers,on_delete=models.PROTECT)
 
 
 

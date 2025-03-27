@@ -1,74 +1,102 @@
-
 <app-header></app-header>
 
-<main class="container mt-5">
-    <section id="editTravelRequestSection" aria-labelledby="editTravelRequestHeading">
-      <h2 class="mb-4" id="editTravelRequestHeading">Travel Request</h2>
-      <strong class="text py-3">Manager: John Doe</strong>
+<main class="vh-100 pt-5 pb-5 overflow-hidden">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card shadow">
+          <div class="card-header bg-light">
+            <h2 class="card-title mb-0" id="editTravelRequestHeading">Travel Request</h2>
+            <p class="mb-0 text-muted">Manager: John Doe</p>
+          </div>
+          
+          <div class="card-body overflow-auto" style="max-height: 70vh;">
+            <form aria-labelledby="editTravelRequestHeading" [formGroup]="requestform" (ngSubmit)="submit()">
+              <!-- Form content in two columns for larger screens -->
+              <div class="row">
+                <!-- Left column -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="fromLocation" class="form-label">From Location</label>
+                    <input type="text" class="form-control" id="fromLocation" aria-describedby="fromLocationHelp" formControlName="from_location">
+                    <div id="fromLocationHelp" class="form-text">Enter the location you are traveling from.</div>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="toLocation" class="form-label">To Location</label>
+                    <input type="text" class="form-control" id="toLocation" aria-describedby="toLocationHelp" formControlName="to_location">
+                    <div id="toLocationHelp" class="form-text">Enter the destination location.</div>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="travelMode" class="form-label">Preferred Travel Mode</label>
+                    <select class="form-select" id="travelMode" aria-describedby="travelModeHelp" formControlName="preferred_travel_mode">
+                      <option value="" disabled selected>Select travel mode</option>
+                      <option value="car">Car</option>
+                      <option value="train">Train</option>
+                      <option value="flight">Flight</option>
+                    </select>
+                    <div id="travelModeHelp" class="form-text">Choose your preferred method of transportation.</div>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="lodgingRequired" class="form-label">Lodging Required?</label>
+                    <select class="form-select" id="lodgingRequired" aria-describedby="lodgingRequiredHelp" formControlName="lodging_required">
+                      <option value="" disabled selected>Select option</option>
+                      <option value="1">Yes</option>
+                      <option value="0">No</option>
+                    </select>
+                    <div id="lodgingRequiredHelp" class="form-text">Indicate if overnight accommodation is needed.</div>
+                  </div>
+                </div>
+                
+                <!-- Right column -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="dateFrom" class="form-label">Date from</label>
+                    <input class="form-control" id="datefrom" aria-describedby="select date from" formControlName="date_from" type="date">
+                    <div id="datefromtext" class="form-text">Select starting date for your travel</div>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="dateTo" class="form-label">Date to</label>
+                    <input class="form-control" id="dateto" aria-describedby="select date to" formControlName="date_to" type="date">
+                    <div id="datetotext" class="form-text">Select ending date for your travel</div>
+                  </div>
+                  
+                  <!-- Conditional lodging location field -->
+                  <div class="mb-3" *ngIf="requestform.get('lodging_required')?.value === '1'">
+                    <label for="lodgingLocation" class="form-label">Lodging Location</label>
+                    <input type="text" class="form-control" id="lodgingLocation" 
+                          aria-describedby="lodgingLocationHelp" 
+                          formControlName="lodging_location">
+                    <div id="lodgingLocationHelp" class="form-text">Enter the desired location for lodging.</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Full width elements -->
+              <div class="mb-3">
+                <label for="additionalRequests" class="form-label">Additional Requests</label>
+                <textarea class="form-control" rows="3" id="additionalRequests" aria-describedby="additionalRequestsHelp" formControlName="additional_requests"></textarea>
+                <div id="additionalRequestsHelp" class="form-text">Specify any other needs or considerations for your travel.</div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="travelPurpose" class="form-label">Travel Purpose</label>
+                <textarea class="form-control" rows="3" id="travelPurpose" aria-describedby="travelPurposeHelp" formControlName="travel_purpose"></textarea>
+                <div id="travelPurposeHelp" class="form-text">Describe the reason for your travel.</div>
+              </div>
+              
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary" [disabled]="requestform.invalid">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
-      <form class="form py-3" aria-labelledby="editTravelRequestHeading" [formGroup]="requestform" (ngSubmit)="submit()">
-        <div class="mb-3">
-          <label for="fromLocation" class="form-label">From Location</label>
-          <input type="text" class="form-control" id="fromLocation" aria-describedby="fromLocationHelp" formControlName="from_location">
-          <div id="fromLocationHelp" class="form-text">Enter the location you are traveling from.</div>
-        </div>
-        <div class="mb-3">
-          <label for="toLocation" class="form-label">To Location</label>
-          <input type="text" class="form-control" id="toLocation" aria-describedby="toLocationHelp" formControlName="to_location">
-          <div id="toLocationHelp" class="form-text">Enter the destination location.</div>
-        </div>
-        <div class="mb-3">
-          <label for="travelMode" class="form-label">Preferred Travel Mode</label>
-          <select class="form-select" id="travelMode" aria-describedby="travelModeHelp" formControlName="preferred_travel_mode">
-            <option value="" disabled selected>Select travel mode</option>
-            <option value="car" selected>Car</option>
-            <option value="train">Train</option>
-            <option value="flight">Flight</option>
-          </select>
-          <div id="travelModeHelp" class="form-text">Choose your preferred method of transportation.</div>
-        </div>
-        <div class="mb-3">
-          <label for="lodgingRequired" class="form-label">Lodging Required?</label>
-          <select class="form-select" id="lodgingRequired" aria-describedby="lodgingRequiredHelp" formControlName="lodging_required">
-            <option value="" disabled selected>Select option</option>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-          </select>
-          <div id="lodgingRequiredHelp" class="form-text">Indicate if overnight accommodation is needed.</div>
-        </div>
-        <div class="mb-3">
-          <label for="dateFrom" class="form-label">Date from</label>
-          <input class="form-control" rows="3" id="datefrom"
-            aria-describedby="select date from" formControlName="date_from" type="date">
-          <div id="datefromtext" class="form-text">Select starting date for your travel</div>
-        </div>
-        <div class="mb-3">
-          <label for="dateTo" class="form-label">Date to</label>
-          <input class="form-control" rows="3" id="dateto"
-            aria-describedby="select date to" formControlName="date_to" type="date">
-          <div id="datetotext" class="form-text">Select ending date for your travel</div>
-        </div>
-        <div class="mb-3">
-          <label for="lodgingLocation" class="form-label">Lodging Location</label>
-          <input type="text" class="form-control" id="lodgingLocation" aria-describedby="lodgingLocationHelp" formControlName="lodging_location">
-          <div id="lodgingLocationHelp" class="form-text">Enter the desired location for lodging.</div>
-        </div>
-        <div class="mb-3">
-          <label for="additionalRequests" class="form-label">Additional Requests</label>
-          <textarea class="form-control" rows="3" id="additionalRequests"
-            aria-describedby="additionalRequestsHelp" formControlName="additional_requests"></textarea>
-          <div id="additionalRequestsHelp" class="form-text">Specify any other needs or considerations for your
-            travel.</div>
-        </div>
-        <div class="mb-3">
-          <label for="travelPurpose" class="form-label">Travel Purpose</label>
-          <textarea class="form-control" rows="3" id="travelPurpose" aria-describedby="travelPurposeHelp" formControlName="travel_purpose"></textarea>
-          <div id="travelPurposeHelp" class="form-text">Describe the reason for your travel.</div>
-        </div>
-        <button type="submit" class="btn btn-primary" >Submit</button>
-
-      </form>
-    </section>
-  </main>
-  
-  <app-footer></app-footer>
+<app-footer></app-footer>

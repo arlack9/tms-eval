@@ -13,6 +13,7 @@ from app_tms.utils import (
     send_email_notification
 )
 from rest_framework.authentication import TokenAuthentication
+import traceback
 
 # ----------------------------------------------------------------------------------------
 
@@ -62,21 +63,36 @@ def create_travel_request(request):
             return Response({"error": "Employee not found."}, status=status.HTTP_400_BAD_REQUEST)
 
         data = request.data.copy()
+        print(f"DEBUG - Employee type: {type(employee)}, ID: {employee.id}")
         data['employee'] = employee.id
 
-        # manager = assign_manager_to_request(employee)
-        # data['manager'] = manager.id if manager else None
-
+        print(f"DEBUG - Raw request data before serialization: {data}")
         serializer = TravelRequestsSerializer(data=data)
+        
         if serializer.is_valid():
-            serializer.save()
-            send_email_notification(employee, "Travel Request Submitted", "Your request has been submitted.")
+            print(f"DEBUG - Employee in validated_data: {type(serializer.validated_data.get('employee'))}")
+            print(f"DEBUG - Employee in original data: {type(data['employee'])}")
+            travel_request = serializer.save()
+            print(f"DEBUG - Travel Request Data: {data}")
+            print(f"DEBUG - Validated Data: {serializer.validated_data}")
+            # try:
+            #     send_email_notification(employee, "Travel Request Submitted", "Your request has been submitted.")
+            # except Exception as e:
+            #     print("Error sending email:", str(e))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        print(f"ERROR: {str(e)}")
+        print(f"Exception type: {type(e).__name__}")
+        print(f"Traceback: {traceback.format_exc()}")
+        print(f"Request data: {request.data}")
+        return Response({
+            "error": str(e),
+            "exception_type": type(e).__name__,
+            "traceback": traceback.format_exc()
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 

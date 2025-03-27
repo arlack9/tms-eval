@@ -36,7 +36,7 @@ export class TravelRequestFormComponent {
     console.log('Submitting request data:', request_data); // Debug log
   
     this.backendService
-      .request('employee', 'POST', 'travel-request', request_data)
+      .request('employee', 'POST', 'travel-request/', request_data)
       .subscribe(
         (response) =>{ 
           console.log('Request created successfully', response);
