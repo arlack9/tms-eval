@@ -1,4 +1,4 @@
-:host {
+/* :host {
     display: block;
     width: 100%;
     background-color: #212529;
@@ -8,5 +8,22 @@
     position: absolute;
     bottom: 0;
     left: 0;
+  } */
+  :host {
+    display: block;
+    width: 100%;
+    background-color: #212529;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
   }
-  
+
+  /* Ensure content doesn't get hidden behind the footer */
+  :host ::ng-deep .content-area {
+    margin-bottom: 60px; /* Adjust according to footer height */
+    overflow-y: auto;
+  }

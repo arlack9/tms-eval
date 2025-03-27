@@ -1,0 +1,14 @@
+.table-responsive {
+    overflow-x: auto;  /* Horizontal scroll */
+    overflow-y: auto;  /* Vertical scroll */
+    max-height: 400px; /* Adjust this value based on your layout */
+  }
+  
+  .table thead {
+    background-color: #343a40; /* Dark background for table header */
+    color: white; /* White text on the dark background */
+  }
+  
+  .table td, .table th {
+    white-space: nowrap; /* Prevent text from wrapping inside cells */
+  }
