@@ -19,32 +19,20 @@ def handle_manager_requests(request, id=None):
         if id:
             return get_travel_request(request, id)  # Get details of a specific request
         return list_pending_requests(request)  # List all pending requests for the manager
+       
+    elif request.method == 'PATCH' and request.GET.get("status")=="approved" and id:
+        return approve_travel_request(request, id)
+    elif request.method == 'PATCH' and request.GET.get("status")=="rejected" and id:
+        return reject_travel_request(request, id)
+    elif request.method == 'POST' and id:
+        return request_more_info(request, id)
+    
+    else:
+        return Response({"error": "Invalid action specified."}, status=status.HTTP_400_BAD_REQUEST)
 
-    # --------------------- Handle PATCH requests ---------------------
-    elif request.method == 'PATCH':
-        if not id:
-            return Response({"error": "Travel request ID is required for this action."}, status=status.HTTP_400_BAD_REQUEST)
-
-        action = request.data.get("action")
-        if not action:
-            return Response({"error": "Action parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
-
-        if action == "approve":
-            return approve_travel_request(request, id)
-        elif action == "reject":
-            return reject_travel_request(request, id)
-        elif action == "request_info":
-            return request_more_info(request, id)
-        else:
-            return Response({"error": "Invalid action specified."}, status=status.HTTP_400_BAD_REQUEST)
+            
 
     # --------------------- Handle POST requests ---------------------
-    elif request.method == 'POST':
-        if not id:
-            return Response({"error": "Travel request ID is required to add a note."}, status=status.HTTP_400_BAD_REQUEST)
-        return add_note(request, id)
-
-    return Response({"error": "Invalid request method."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 # ---------------------------------------------------------------------------------------------------
 
@@ -108,7 +96,7 @@ def list_pending_requests(request):
     serializer = TravelRequestsSerializer(pending_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(["PATCH"])
+@api_view(["POST"])
 @permission_classes([IsManager, IsAuthenticated])
 def request_more_info(request, id):
     """
@@ -144,35 +132,9 @@ def request_more_info(request, id):
 
     return Response({"message": "Request for more info sent successfully"}, status=status.HTTP_200_OK)
 
-@api_view(["POST"])
+
+@api_view(["GET"])
 @permission_classes([IsManager, IsAuthenticated])
-def add_note(request, id):
-    """
-    Allows a manager to add a note to a travel request.
-    """
-    try:
-        travel_request = Travel_Requests.objects.get(id=id)
-    except Travel_Requests.DoesNotExist:
-        return Response({"error": "Travel request not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    manager = get_manager(request.user)
-    if not manager:
-        return Response({"error": "Unauthorized"}, status=status.HTTP_403_FORBIDDEN)
-
-    note_content = request.data.get("note", "").strip()
-    if not note_content:
-        return Response({"error": "Note content is required"}, status=status.HTTP_400_BAD_REQUEST)
-
-    # Create a note entry
-    Notes.objects.create(
-        travel_request=travel_request,
-        manager=manager,
-        note=note_content
-    )
-
-    return Response({"message": "Note added successfully"}, status=status.HTTP_201_CREATED)
-
-
 def get_travel_request(request, id):
     """
     Fetches a specific travel request for the manager.

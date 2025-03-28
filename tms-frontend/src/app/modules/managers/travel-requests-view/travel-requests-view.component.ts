@@ -11,7 +11,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class TravelRequestsViewComponent implements OnInit {
   table_data: any[] = [];
-  searchText = '';
+  public id :number = 0;
+  // response:string='';
+  // searchText = '';
   currentPage = 1;
   requestsPerPage = 5;
   totalPages = 1;
@@ -24,18 +26,30 @@ export class TravelRequestsViewComponent implements OnInit {
     this.fetchTravelRequests();
   }
 
-  approve(): void{
+  approve(id:number): void{
     ` button approve`
-    this.backendService.request('manager', 'POST', 'travel-request', {status: 'approved'}).subscribe(
-      (response: any) => {
+    this.backendService.request('manager', 'PATCH', `travel-request/${this.id}?status=approved`).subscribe(
+      (response:any) => {
         console.log('Approve response:', response);
         this.fetchTravelRequests();
       },
       (error) => {
         console.error('Error approving travel request:', error);
+      }     
+    );
+  }
+
+  reject(id:number): void{
+    ` button reject`
+    this.backendService.request('manager', 'PATCH', `travel-request/${this.id}?status=rejected`).subscribe(
+      (response: any) => {
+        console.log('Reject response:', response);
+        this.fetchTravelRequests();
+      },
+      (error) => {
+        console.error('Error rejecting travel request:', error);
       }
     );
-    
   }
 
   fetchTravelRequests() {
