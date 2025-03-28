@@ -12,15 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class TravelRequestsViewComponent implements OnInit {
   table_data: any[] = [];
   public id :number = 0;
-  // response:string='';
-  // searchText = '';
-  // currentPage = 1;
-  // requestsPerPage = 5;
-  // totalPages = 1;
-  // sortField = 'date';
-  // sortOrder: 'asc' | 'desc' = 'asc';
 
-  ////
   searchText = ''; // Search input model
   isModalOpen = false;
   selectedRequestId: number | null = null;
@@ -94,7 +86,7 @@ export class TravelRequestsViewComponent implements OnInit {
       };
       console.log("Sending note data:", noteData);
       
-      this.backendService.request('manager', 'POST', `travel-request/${this.selectedRequestId}/note/`, noteData)
+      this.backendService.request('manager', 'POST', `travel-request/${this.selectedRequestId}/`, noteData)
         .subscribe(
           (response) => {
             console.log("Note successfully sent:", response);
@@ -105,55 +97,5 @@ export class TravelRequestsViewComponent implements OnInit {
     }
   }
 
-  // closeRequest(id: number): void {
-  //   this.backendService.request('admin', 'PATCH', `travel-request/${id}/`)
-  //     .subscribe(
-  //       () => {
-  //         console.log(`Request ${id} closed`);
-  //         this.fetchTravelRequests(); // Refresh the request list
-  //       },
-  //       (error) => console.error('Error closing request:', error)
-  //     );
-  // }
 
-  //   cancel(id=0):void{
-
-  //   }
-  // onSearchChange() {
-  //   this.currentPage = 1;
-  //   this.fetchTravelRequests();
-  // }
-
-  // changeSorting(field: string) {
-  //   if (this.sortField === field) {
-  //     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
-  //   } else {
-  //     this.sortField = field;
-  //     this.sortOrder = 'asc';
-  //   }
-  //   this.fetchTravelRequests();
-  // }
-
-  // totalPagesArray() {
-  //   return Array(this.totalPages).fill(0).map((_, i) => i + 1);
-  // }
-
-  // goToPage(page: number) {
-  //   this.currentPage = page;
-  //   this.fetchTravelRequests();
-  // }
-
-  // prevPage() {
-  //   if (this.currentPage > 1) {
-  //     this.currentPage--;
-  //     this.fetchTravelRequests();
-  //   }
-  // }
-
-  // nextPage() {
-  //   if (this.currentPage < this.totalPages) {
-  //     this.currentPage++;
-  //     this.fetchTravelRequests();
-  //   }
-  // }
 }

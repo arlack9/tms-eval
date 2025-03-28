@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from app_tms.models import Travel_Requests, Notes, Manager_Assignments
-from app_tms.serializers import TravelRequestsSerializer
+from app_tms.serializers import TravelRequestsSerializer,NotesSerializer
 from app_tms.permissions import IsManager
 from rest_framework.permissions import IsAuthenticated
 from app_tms.utils import get_manager, can_approve_or_reject, send_email_notification, queryset_processor
@@ -96,22 +96,6 @@ def reject_travel_request(request, id):
     except Travel_Requests.DoesNotExist:
         return Response({"error": "Travel request not found."}, 
                        status=status.HTTP_404_NOT_FOUND)
-# @api_view(["PATCH"])
-# @permission_classes([IsManager, IsAuthenticated])
-# def reject_travel_request(request, id):
-#     """
-#     Reject travel request.
-#     """
-#     travel_request = get_object_or_404(Travel_Requests, id=id)
-#     if not can_approve_or_reject(travel_request, request.user):
-#         return Response({"error": "Cannot reject this request."}, status=status.HTTP_403_FORBIDDEN)
-    
-#     travel_request.request_status = Travel_Requests.RequestStatusIndex.REJECTED
-#     travel_request.save()
-
-#     send_email_notification(travel_request.employee, "Travel Request Rejected", "Your request has been rejected.")
-    
-#     return Response({"message": "Request rejected."}, status=status.HTTP_200_OK)
 
 @api_view(["GET"])
 @permission_classes([IsManager, IsAuthenticated])
@@ -139,6 +123,40 @@ def list_pending_requests(request):
     serializer = TravelRequestsSerializer(pending_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+# @api_view(["POST"])
+# @permission_classes([IsAdmin, IsAuthenticated])
+# def send_request_note(request, id):
+#     """
+#     Admin can send a request note based on the travel request ID.
+#     """
+#     travel_request = get_object_or_404(Travel_Requests, id=id)
+#     admin = get_admin(request.user)  # Ensure this function retrieves the correct Admin instance
+
+#     if not admin:
+#         return Response({"error": "Unauthorized"}, status=status.HTTP_403_FORBIDDEN)
+
+#     request_data = request.data.copy()  # Copy to modify data safely
+#     request_data["request"] = travel_request.id  # Ensure correct request ID is passed
+#     request_data["admin"] = admin.id  # Assign admin ID
+#     request_data["note_by"] = "ADMIN"  # Set the creator role
+#     request_data["read_status"] = Notes.ReadStatusIndex.NEW  # Default to NEW
+
+#     serializer = NotesSerializer(data=request_data)
+#     if serializer.is_valid():
+#         serializer.save()
+
+#         # Send email notification
+#         send_email_notification(
+#             travel_request.employee,
+#             "Admin Note Added",
+#             f"A note has been added to your travel request: {serializer.validated_data['note_text']}"
+#         )
+
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+#     else:
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 @api_view(["POST"])
 @permission_classes([IsManager, IsAuthenticated])
 def request_more_info(request, id):
@@ -155,16 +173,26 @@ def request_more_info(request, id):
     if not manager:
         return Response({"error": "Unauthorized"}, status=status.HTTP_403_FORBIDDEN)
 
-    note_content = request.data.get("note", "").strip()
+    note_content = request.data.get("note_text", "").strip()
     if not note_content:
         return Response({"error": "Note content is required"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+    request_data = request.data.copy()  # Copy to modify data safely
+    request_data["request"] = travel_request.id  # Ensure correct request ID is passed
+    request_data["manager"] = manager.id  # Assign admin ID
+    request_data["note_by"] = "MANAGER"  # Set the creator role
+    request_data["read_status"] = Notes.ReadStatusIndex.NEW  # Default to NEW
+
+    serializer = NotesSerializer(data=request_data)
+    if serializer.is_valid():
+        serializer.save()
     # Create a note entry
-    Notes.objects.create(
-        travel_request=travel_request,
-        manager=manager,
-        note=note_content
-    )
+    # Notes.objects.create(
+    #     travel_request=travel_request,
+    #     manager=manager,
+    #     note=note_content
+    # )
 
     # Send an email notification
     send_email_notification(
