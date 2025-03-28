@@ -1,15 +1,12 @@
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from app_tms.models import Travel_Requests, Notes
+from app_tms.models import Travel_Requests, Notes, Manager_Assignments
 from app_tms.serializers import TravelRequestsSerializer
 from app_tms.permissions import IsManager
 from rest_framework.permissions import IsAuthenticated
-from app_tms.utils import get_manager, can_approve_or_reject, send_email_notification,queryset_processor
-
-
+from app_tms.utils import get_manager, can_approve_or_reject, send_email_notification, queryset_processor
 
 
 def handle_manager_requests(request, id=None):
@@ -89,15 +86,26 @@ def reject_travel_request(request, id):
 @permission_classes([IsManager, IsAuthenticated])
 def list_pending_requests(request):
     """
-    Lists all pending travel requests assigned to the authenticated manager.
+    Lists all pending travel requests from employees assigned to the authenticated manager.
     """
+    # Get the manager object for the current user
     manager = get_manager(request.user)
     if not manager:
         return Response({"error": "Unauthorized"}, status=status.HTTP_403_FORBIDDEN)
-
-    pending_requests = Travel_Requests.objects.filter(manager=manager, request_status=Travel_Requests.RequestStatusIndex.IN_PROGRESS)
-    serializer = TravelRequestsSerializer(pending_requests, many=True)
     
+    # First find all employees assigned to this manager
+    assigned_employees = Manager_Assignments.objects.filter(manager=manager).values_list('employee', flat=True)
+    
+    # Then find all pending travel requests from those employees
+    pending_requests = Travel_Requests.objects.filter(
+        employee__in=assigned_employees,  # Employees assigned to this manager
+        request_status=Travel_Requests.RequestStatusIndex.IN_PROGRESS
+    )
+    
+    # Optional: Add ordering to show newest first
+    pending_requests = pending_requests.order_by('-created_at')
+    
+    serializer = TravelRequestsSerializer(pending_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(["PATCH"])

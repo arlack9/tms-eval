@@ -15,6 +15,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
     employee_name = serializers.SerializerMethodField()
     employee_email = serializers.SerializerMethodField()
     employee_username = serializers.SerializerMethodField()
+    #middle name optional ignore if null
+    middle_name = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
     def create(self, validated_data):
         validated_data["created_at"] = now().date()
@@ -61,6 +63,9 @@ class AdminSerializer(serializers.ModelSerializer):
 
 class ManagerSerializer(serializers.ModelSerializer):
     manager_name = serializers.SerializerMethodField()
+
+    #middle name optional ignore if null
+    middle_name = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     
     class Meta:
         model=Managers
@@ -220,5 +225,5 @@ class TravelRequestsUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Travel_Requests
         fields = '__all__'
-        read_only_fields = ['manager', 'employee']  # Prevent updates
+        read_only_fields = ['employee']  # Prevent updates
 

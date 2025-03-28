@@ -69,15 +69,13 @@
                 <input type="date" class="form-control" formControlName="dob">
             </div>
 
-            <div class="mb-3">
-                
-                <!-- <div *ngIf="userType.value == 'managers'"> -->
-                    <label class="form-label">Select Manager</label>
+            <div class="mb-3" *ngIf="userType_option?.value === 'employees'">
+                <label class="form-label">Select Manager</label>
                 <select class="form-select" formControlName="manager">
                     <option *ngFor="let manager of managers" [value]="manager.id">{{manager.manager_name}}</option>
                 </select>
-            <!-- </div> -->
             </div>
+           
 
             <button type="submit" [disabled]="userForm.invalid"  class="btn btn-primary">
                 Submit

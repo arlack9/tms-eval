@@ -73,7 +73,7 @@ export class AddUserComponent implements OnInit {
   get manager() { return this.userForm.get('manager')?.value || ''; }
 
 
-
+  get userType_option() { return this.userForm.get('userType'); }
   
   fetchManagers(): void {
     this.loading = true;
