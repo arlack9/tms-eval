@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend/backend.service';
-
+import { bootstrapApplication } from '@angular/platform-browser';
 @Component({
   selector: 'app-travel-requests-view',
   templateUrl: './travel-requests-view.component.html',
@@ -53,7 +53,7 @@ export class TravelRequestsViewComponent implements OnInit {
   }
 
   closeRequest(id: number): void {
-    this.backendService.request('admin', 'PATCH', `travel-request/${id}`)
+    this.backendService.request('admin', 'PATCH', `travel-request/${id}/`)
       .subscribe(
         () => {
           console.log(`Request ${id} closed`);

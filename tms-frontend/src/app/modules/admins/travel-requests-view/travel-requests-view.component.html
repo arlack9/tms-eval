@@ -6,11 +6,15 @@
     
         <!-- Search Bar -->
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="search-container">
-                        <input type="text" class="form-control search-input" placeholder="Search...">
-                        <i class="fas fa-search search-icon"></i>
+            <div class="row justify-content-center mb-3">
+                <div class="col-lg-6 col-md-8 col-sm-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search requests...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,7 +47,7 @@
     
                         <td>
                             <span *ngIf="request.request_status === 'IP'" class="badge bg-primary">IN-PROGRESS</span>
-                            <span *ngIf="request.request_status === 'AP'" class="badge bg-success">APPROVED</span>
+                            <div class="table-responsive mt-4" style="max-height: 400px; overflow-y: auto;"></div>
                             <span *ngIf="request.request_status === 'RJ'" class="badge bg-danger">REQUEST REJECTED</span>
                             <span *ngIf="request.request_status === 'CA'" class="badge bg-secondary">CANCELLED</span>
                         </td>
