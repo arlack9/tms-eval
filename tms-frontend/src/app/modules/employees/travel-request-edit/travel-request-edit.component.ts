@@ -1,7 +1,7 @@
 
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BackendService } from '../../services/backend/backend.service';
 // import { BackendService } from '../../services/backend.service';
@@ -28,7 +28,8 @@ export class TravelRequestEditComponent implements OnInit {
   requestId: string | null = null; // Store the extracted request ID
 
   constructor(private route: ActivatedRoute,
-              private backendService: BackendService
+              private backendService: BackendService,
+              private router: Router
             ) {}
 
   ngOnInit(): void {
@@ -65,9 +66,10 @@ export class TravelRequestEditComponent implements OnInit {
   
     console.log('Submitting update for ID:', this.requestId, request_data);
   
-    this.backendService.request('employee', 'PUT', `travel-request/${this.requestId}`, request_data).subscribe(
+    this.backendService.request('employee', 'PUT', `travel-request/${this.requestId}/`, request_data).subscribe(
       (response) => {
         console.log('Request updated successfully', response);
+        this.router.navigate(['/employees/travel-requests']);
       },
       (error) => {
         console.error('Error updating travel request', error);
