@@ -14,7 +14,7 @@
                             <th>Request Date</th>
                             <th>Date From & To</th>
                             <th>lodging location</th>
-                            <th>Notification</th>
+                            <th>Send notes</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -34,11 +34,22 @@
                             No
                           </div>
                         </td>
-                        <td>
+                        <!-- <td>
                           <a class="btn btn-warning btn-sm" [routerLink]="['/employees/view-notes', request.id]">
                             <i class="bi bi-bell-fill"></i>
                             {{request.new_notes_count}}
                           </a>
+                        </td> -->
+
+                        
+
+                        <td>
+                          <button class="btn btn-primary btn-sm me-2"
+                                (click)="openModal(request.id)"
+                                [disabled]="request.alive_status === 'CL'">
+                                Request
+                            </button>
+
                         </td>
                         <td>
                           <span *ngIf="request.request_status === 'IP'" class="badge bg-primary">IN-PROGRESS</span>
@@ -48,7 +59,7 @@
                         </td>
                         <td class="sticky-custom-right table-success">
                           <button
-                             [disabled]="request.request_status!=='IP'"
+                             [disabled]="request.request_status!=='IP' || request.alive_status === 'CL'"
                              (click)="approve(request.id)"
                              class="btn btn-success btn-sm me-1" 
                              role="button">
@@ -58,7 +69,7 @@
                             (click)="reject(request.id)" 
                             class="btn btn-danger btn-sm" 
                             role="button"
-                            [disabled]="request.request_status!=='IP'">
+                            [disabled]="request.request_status!=='IP' || request.alive_status === 'CL'">
                             <i class="bi bi-trash"></i>
                           </button>
                         </td>
@@ -87,5 +98,12 @@
     <!-- </section> -->
 <!-- </main> -->
 
+<app-note-modal 
+    [isOpen]="isModalOpen"
+    title="Send Note"
+    confirmText="Send"
+    (Close)="isModalOpen = false"
+    (Confirm)="sendNote($event)">
+</app-note-modal>
 
 <app-footer></app-footer>
