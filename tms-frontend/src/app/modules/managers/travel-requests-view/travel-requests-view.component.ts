@@ -54,7 +54,7 @@ export class TravelRequestsViewComponent implements OnInit {
 
   fetchTravelRequests() {
     const queryParams = {
-      search: this.searchText,
+      // search: this.searchText,
       sort: this.sortField,
       order: this.sortOrder,
       page: this.currentPage,
