@@ -50,17 +50,17 @@
                         </td>
                         <td class="sticky-custom-right table-success">
                           <button
-                             [disabled]="request.request_status!=='AP'"
+                             [disabled]="request.request_status!=='IP'"
                              (click)="approve(request.id)"
                              class="btn btn-success btn-sm me-1" 
                              role="button">
-                             <i class="bi bi-pencil-fill"></i>
+                             <i class="bi bi-suceess">approve</i>
                         </button>
                           <button 
                             (click)="reject(request.id)" 
                             class="btn btn-danger btn-sm" 
                             role="button"
-                            [disabled]="request.request_status!=='RJ'">
+                            [disabled]="request.request_status!=='IP'">
                             <i class="bi bi-trash"></i>
                           </button>
                         </td>
