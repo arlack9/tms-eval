@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend/backend.service';
-import { bootstrapApplication } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-travel-requests-view',
   templateUrl: './travel-requests-view.component.html',
