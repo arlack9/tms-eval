@@ -8,3 +8,32 @@ body {
     bottom: 0;
     width: 100%;
   }
+
+  :host {
+    display: block;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .table-responsive {
+    min-height: 250px;
+    max-height: calc(100vh - 250px);
+  }
+  
+  /* Fix for table header */
+  .table-responsive thead.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  /* Reduce padding on mobile */
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 0.5rem;
+    }
+    
+    .table td, .table th {
+      padding: 0.5rem;
+    }
+  }

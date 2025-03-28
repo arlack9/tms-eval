@@ -1,13 +1,4 @@
-// import { Component } from '@angular/core';
 
-// @Component({
-//   selector: 'app-notes-received',
-//   templateUrl: './notes-received.component.html',
-//   styleUrl: './notes-received.component.css'
-// })
-// export class NotesReceivedComponent {
-
-// }
 
 
 

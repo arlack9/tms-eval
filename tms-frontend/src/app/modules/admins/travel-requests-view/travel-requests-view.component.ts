@@ -41,7 +41,7 @@ export class TravelRequestsViewComponent implements OnInit {
       };
       console.log("Sending note data:", noteData);
       
-      this.backendService.request('admin', 'POST', `travel-request/${this.selectedRequestId}/note`, noteData)
+      this.backendService.request('admin', 'POST', `travel-request/${this.selectedRequestId}/note/`, noteData)
         .subscribe(
           (response) => {
             console.log("Note successfully sent:", response);

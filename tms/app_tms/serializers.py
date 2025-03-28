@@ -62,7 +62,14 @@ class AdminSerializer(serializers.ModelSerializer):
 
 
 class ManagerSerializer(serializers.ModelSerializer):
+    #the fields will be returned in json.
     manager_name = serializers.SerializerMethodField()
+
+    manager_username = serializers.SerializerMethodField()
+
+    manager_email=serializers.SerializerMethodField()
+
+    get_manager_date_joined=serializers.SerializerMethodField()
 
     #middle name optional ignore if null
     middle_name = serializers.CharField(required=False, allow_blank=True, allow_null=True)
@@ -94,6 +101,16 @@ class ManagerSerializer(serializers.ModelSerializer):
         if obj.login_auth:
             return obj.login_auth.username
         return None
+    
+    def get_manager_date_joined(self, obj):
+        '''
+         get manager date joined from login table
+         '''
+        if obj.login_auth:
+            return obj.login_auth.date_joined
+        return None
+
+
 
 class ManagerAssignmentsSerializer(serializers.ModelSerializer):
     class Meta:
