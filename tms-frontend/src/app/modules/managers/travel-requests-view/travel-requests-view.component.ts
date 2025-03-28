@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { BackendService } from '../../services/backend/backend.service';
 import { FormsModule } from '@angular/forms';
 
+import { Pipe, PipeTransform } from '@angular/core';
+
 
 @Component({
   selector: 'app-travel-requests-view',
@@ -18,6 +20,8 @@ export class TravelRequestsViewComponent implements OnInit {
   selectedRequestId: number | null = null;
 
   constructor(private backendService: BackendService, private router: Router) {}
+
+  
 
   ngOnInit(): void {
     this.fetchTravelRequests();

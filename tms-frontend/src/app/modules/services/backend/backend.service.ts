@@ -24,7 +24,7 @@ export class BackendService {
     return this.requestTyped<any>(userType, method, endpoint, data, queryParams, id);
   }
 
-  // Keep the original typed version in case you need it in the future
+  //typed request
   requestTyped<T = any>(
     userType: 'employee' | 'manager' | 'admin',
     method: 'GET' | 'POST' | 'PUT' | 'PATCH',
@@ -50,7 +50,7 @@ export class BackendService {
     
     let params = new HttpParams();
     
-    // Process query params if provided and not null
+    // strictly use only if queryparams exist
     if (queryParams && Object.keys(queryParams).length > 0) {
       Object.entries(queryParams).forEach(([key, value]) => {
         if (value !== null && value !== undefined && value !== '') {
