@@ -3,7 +3,7 @@
 <!-- <main class="container mt-5 position-relative"> -->
     <!-- <section id="travelHistorySection"> -->
         <div class="container mt-5 pt-4">
-            <h1 class="mb-4" id="travelHistoryHeading">Travel History</h1>
+            <h1 class="mb-4" id="travelHistoryHeading">Travel Requests</h1>
             <div class="table-responsive">
                 <table class="table text-center table-striped" aria-labelledby="travelHistoryHeading">
                   <thead class="table-success">
@@ -49,16 +49,18 @@
                           <span *ngIf="request.request_status === 'CA'" class="badge bg-secondary">CANCELLED</span>
                         </td>
                         <td class="sticky-custom-right table-success">
-                          <a [routerLink]="['/employees/edit-request', request.id]" 
-                             class="btn btn-primary btn-sm me-1" 
+                          <button
+                             [disabled]="request.request_status!=='AP'"
+                             (click)="approve(request.id)"
+                             class="btn btn-success btn-sm me-1" 
                              role="button">
                              <i class="bi bi-pencil-fill"></i>
-                          </a>
+                        </button>
                           <button 
-                            (click)="cancel(request.id)" 
+                            (click)="reject(request.id)" 
                             class="btn btn-danger btn-sm" 
                             role="button"
-                            [disabled]="request.request_status!=='IP'">
+                            [disabled]="request.request_status!=='RJ'">
                             <i class="bi bi-trash"></i>
                           </button>
                         </td>

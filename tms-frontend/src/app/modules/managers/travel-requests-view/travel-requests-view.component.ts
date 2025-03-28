@@ -24,6 +24,20 @@ export class TravelRequestsViewComponent implements OnInit {
     this.fetchTravelRequests();
   }
 
+  approve(): void{
+    ` button approve`
+    this.backendService.request('manager', 'POST', 'travel-request', {status: 'approved'}).subscribe(
+      (response: any) => {
+        console.log('Approve response:', response);
+        this.fetchTravelRequests();
+      },
+      (error) => {
+        console.error('Error approving travel request:', error);
+      }
+    );
+    
+  }
+
   fetchTravelRequests() {
     const queryParams = {
       search: this.searchText,
@@ -34,12 +48,27 @@ export class TravelRequestsViewComponent implements OnInit {
     };
 
     this.backendService.request('manager', 'GET', 'travel-request', null, queryParams).subscribe(
-      (response: { data: any[]; total_pages: number }) => {
-        this.table_data = response.data;
-        this.totalPages = response.total_pages;
+      (response: any) => {
+        console.log('Raw response:', response);
+        if (response && response.data) {
+          // If response has a data property, use it
+          this.table_data = response.data;
+          this.totalPages = response.total_pages || 1;
+        } else if (Array.isArray(response)) {
+          // If response is an array, use it directly
+          this.table_data = response;
+          this.totalPages = 1;
+        } else {
+          // Handle other cases
+          this.table_data = [];
+          this.totalPages = 1;
+        }
+        console.log('Travel requests:', this.table_data);
       },
       (error) => {
         console.error('Error fetching travel requests:', error);
+        this.table_data = [];
+        this.totalPages = 1;
       }
     );
   }
