@@ -26,22 +26,20 @@ export class TravelRequestsViewComponent implements OnInit {
     this.fetchTravelRequests();
   }
 
-  approve(id:number): void{
-    ` button approve`
-    this.backendService.request('manager', 'PATCH', `travel-request/${this.id}?status=approved`).subscribe(
-      (response:any) => {
+  approve(id: number): void {
+    this.backendService.request('manager', 'PATCH', `travel-request/${id}/?status=approved`, {}).subscribe(
+      (response: any) => {
         console.log('Approve response:', response);
         this.fetchTravelRequests();
       },
       (error) => {
         console.error('Error approving travel request:', error);
-      }     
+      }
     );
   }
 
-  reject(id:number): void{
-    ` button reject`
-    this.backendService.request('manager', 'PATCH', `travel-request/${this.id}?status=rejected`).subscribe(
+  reject(id: number): void {
+    this.backendService.request('manager', 'PATCH', `travel-request/${id}/?status=rejected`, {}).subscribe(
       (response: any) => {
         console.log('Reject response:', response);
         this.fetchTravelRequests();

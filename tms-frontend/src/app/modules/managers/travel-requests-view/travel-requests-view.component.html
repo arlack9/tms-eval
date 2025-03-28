@@ -10,7 +10,6 @@
                         <tr>
                             <th>Sl.No.</th>
                             <th>Location from & To</th>
-                            <th>Manager Name</th>
                             <th>Travel Purpose</th>
                             <th>Request Date</th>
                             <th>Date From & To</th>
@@ -24,7 +23,6 @@
                       <tr *ngFor="let request of table_data; let i = index">
                         <td>{{ i+1 }}</td>
                         <td>{{ request.from_location }}<br>{{ request.to_location }}</td>
-                        <td>{{request.manager_name}}</td>
                         <td>{{ request.travel_purpose }}</td>
                         <td>{{request.created_at}}</td>
                         <td>{{ request.date_from }} <br>---<br>{{ request.date_to }}</td>

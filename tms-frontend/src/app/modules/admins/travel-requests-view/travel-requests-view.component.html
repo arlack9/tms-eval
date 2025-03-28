@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-    
+    <!-- <div class="table-responsive mt-4" style="max-height: 400px; overflow-y: auto;"></div> -->
         <!-- Table Container -->
         <div class="table-responsive mt-4" style="max-height: 400px; overflow-y: auto;"> <!-- Vertical scroll container -->
             <table class="table table-bordered table-hover">
@@ -47,7 +47,7 @@
     
                         <td>
                             <span *ngIf="request.request_status === 'IP'" class="badge bg-primary">IN-PROGRESS</span>
-                            <div class="table-responsive mt-4" style="max-height: 400px; overflow-y: auto;"></div>
+                            <span *ngIf="request.request_status === 'AP'" class="badge bg-success">APPROVED</span>
                             <span *ngIf="request.request_status === 'RJ'" class="badge bg-danger">REQUEST REJECTED</span>
                             <span *ngIf="request.request_status === 'CA'" class="badge bg-secondary">CANCELLED</span>
                         </td>
